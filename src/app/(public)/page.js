@@ -74,10 +74,10 @@ export default async function HomePage() {
             <p className={styles.heroLead}>{content["hero.lead"]}</p>
             <div className={styles.heroActions}>
               <Link href="/doneaza" className={styles.btnPrimary}>
-                <IconHeart width={16} height={16} strokeWidth={2} /> Donează acum
+                <IconHeart width={16} height={16} strokeWidth={2} /> {content["hero.ctaPrimary"]}
               </Link>
               <Link href="/despre-noi" className={styles.btnSecondary}>
-                Află mai multe
+                {content["hero.ctaSecondary"]}
               </Link>
             </div>
           </div>

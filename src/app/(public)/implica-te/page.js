@@ -43,8 +43,8 @@ export default async function ImplicaTePage() {
           </>
         }
         lead={content["hero.lead"]}
-        primaryCta={{ href: "/doneaza", label: "Donează acum" }}
-        secondaryCta={{ href: "#cum-te-implici", label: "Află mai multe" }}
+        primaryCta={{ href: "/doneaza", label: content["hero.ctaPrimary"] }}
+        secondaryCta={{ href: "#cum-te-implici", label: content["hero.ctaSecondary"] }}
         imageSrc="/assets/4-maini-tinute.png"
         imageAlt="Mâini ținute cu grijă"
         badgeText="Împreună facem diferența"

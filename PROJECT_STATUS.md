@@ -5,9 +5,9 @@
 - Architecture: Next.js full-stack on VPS
 - Database: SQLite + Prisma
 - PDF storage: local persistent disk
-- Current stage: STAGE 9 + content-population pass (out-of-band, user-directed)
-- Overall status: STAGE 9 PASS; see "Content-population pass" note below for a significant post-Stage-9 change
-- GitHub: https://github.com/devalGabriel/ong (branch `master`, pushed through Stage 8 so far)
+- Current stage: STAGE 9 + content-population pass + admin dashboard rebuild (all out-of-band, user-directed)
+- Overall status: STAGE 9 PASS; see "Content-population pass" and "Admin dashboard rebuild" notes below for significant post-Stage-9 changes
+- GitHub: https://github.com/devalGabriel/ong (branch `master`, pushed through Stage 9 + content-population pass so far)
 - Dev tooling: Playwright installed (`npm run screenshot -- <route> [route2] ...`) for visual QA against mock-ups — run from PowerShell, not Git Bash (Git Bash mangles leading `/` route arguments into Windows paths)
 
 | Stage | Status | Lint | Build | DB/Migration | Review |
@@ -135,6 +135,20 @@ The user directed (after being shown the conflict and choosing to proceed twice,
 - Visually verified all 8 pages via Playwright screenshots against their mock-ups at 1440px (the extraction/screenshot tooling from earlier this session) — composition, spacing, and now content all match closely.
 - Added: "Acces administrator" link in the footer bottom bar, pointing at `/admin` (Proxy already redirects unauthenticated visitors to `/admin/login` and authenticated ones straight to the dashboard, so no extra logic was needed).
 - Reverted: an earlier attempt to extract icons/masks/illustrations from the mock-up PNGs (a background subagent produced 13 low-quality crops) was abandoned by the user as not good enough; the `sharp` dependency was removed again and `public/assets/extracted/` deleted. The site continues to use the hand-built inline SVG icon set from Stages 2–4.
+
+## Admin dashboard rebuild (out-of-band, explicit user override of "no admin mock-up" default) — IMPLEMENTED
+The user supplied `mockup/dashboard.png` and directed the admin dashboard be rebuilt to match its sidebar/menu, overriding `CLAUDE.md`'s "no admin mock-up exists intentionally" note and several MVP exclusions (page builder, rich-text editing, multi-user management). Planned via `/plan` (formal plan mode + a Plan sub-agent) with the user's explicit sign-off before implementation; full plan and rationale in `docs/DASH_UPDATE.md` — read that file for the complete Phase A/Phase B breakdown. `CLAUDE.md` itself was deliberately left unedited (same convention as the content-population override).
+
+Implemented (Phase A), all verified against a real production server (`next start`), not just dev:
+- Admin shell visually rebuilt to match the mock-up: sidebar with hand-built icons (`src/components/admin/icons.js` — not extracted from the mock-up PNG, same policy as before), pink active pill, decorative leaf (reused `IconLeafSprig`), "Ai nevoie de ajutor?" box linking to a new real `/admin/ghid` page (not a dead link), topbar with breadcrumb, a disabled/honest search input, a **real** DB+storage status check (`src/lib/system/status.js`), and a user menu (initials avatar, real `AdminUser.role`, "Vezi site"/"Deconectare" moved here from the old sidebar).
+- Nav renamed to "Texte", 5 out-of-scope items (SEO, Noutăți, Proiecte, Media, Utilizatori) shown with icons but rendered as inert `<span aria-disabled="true">` with an "În curând" badge — visible per the mock-up, never a fake link.
+- New `/admin/donatii` page: the 5 donation-related `SiteSettings` fields moved here exclusively (removed from `/admin/setari`), reusing the existing settings API route unchanged.
+- Dashboard home: 4 real stat cards from a new `getRegistryStats()` — page count is now truthfully 8/8 (added a minimal `doneaza` registry entry + wired it into the public page), real editable-field count, real last-updated date, real "% fields with a live override" — no numbers copied from the mock-up's fiction (42, 92%, a fixed date).
+- `/admin/continut/[pageKey]` restyled with a real tab strip across all 8 pages, boxed field cards (no fake rich-text toolbar — a non-functional Bold/Italic/Link toolbar would be worse than none, and real HTML storage is forbidden), a real always-true "Publicat" badge (no draft/publish state exists, so two buttons collapsed to one honest "Salvează modificările"), a read-only section list derived from the registry (`getPageSections()` — no add/remove/reorder, that's explicitly page-builder territory), and a real `<iframe>` live-preview panel of the last-saved page.
+- Added `hero.ctaPrimary`/`hero.ctaSecondary` registry fields (real, `maxLength: 25`) to the 3 pages with hero CTA buttons (home, despre-noi, implica-te), wired end-to-end to the public JSX.
+- Explicitly not built (Phase B, listed in `docs/DASH_UPDATE.md`): rich-text/HTML editing, section drag-reorder/add/delete backed by real state, Media library, multi-user management, Noutăți/Proiecte as real CRUD (need new Prisma models), draft/publish workflow, notifications, per-page SEO metadata.
+- Real bug caught during testing (not the app's fault): the same Git-Bash/curl UTF-8 argument-encoding issue from Stage 8 resurfaced when testing a `ț`-containing CTA value via `--data-urlencode`; worked around the same way (value read from a UTF-8 file via `--data-urlencode "field@file"` with a Windows-style path), confirmed the save round-trips correctly in the actual app.
+- Dev DB reset to empty (`PageContent` table) after all testing.
 
 ## Stage 1 known risk
 `npm audit` reports 3 high-severity advisories against `deepmerge-ts` (via `@prisma/config`), affecting all current Prisma 7.x releases. `npm audit fix --force` would downgrade to `prisma@6.12.0`, which conflicts with the required Prisma major version 7 — left unfixed, tracked for re-check when a patched Prisma 7 release is available.

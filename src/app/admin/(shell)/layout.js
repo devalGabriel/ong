@@ -1,8 +1,13 @@
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSessionFromCookies } from "@/lib/auth/session";
+import { prisma } from "@/lib/db";
+import { getSystemStatus } from "@/lib/system/status";
 import AdminNav from "@/components/admin/AdminNav";
+import Topbar from "@/components/admin/Topbar";
+import HelpBox from "@/components/admin/HelpBox";
+import Logo from "@/components/public/Logo";
+import { IconLeafSprig } from "@/components/public/icons";
 import styles from "./layout.module.css";
 
 export const metadata = {
@@ -17,24 +22,31 @@ export default async function AdminShellLayout({ children }) {
     redirect("/admin/login");
   }
 
+  const [adminUser, status] = await Promise.all([
+    prisma.adminUser.findUnique({ where: { id: session.sub } }),
+    getSystemStatus(),
+  ]);
+
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
-        <p className={styles.brand}>Fii Schimbarea · Admin</p>
-        <AdminNav />
-        <Link href="/" target="_blank" rel="noreferrer" className={styles.viewSite}>
-          Vezi site ↗
-        </Link>
-        <div className={styles.userRow}>
-          <p className={styles.userEmail}>{session.email}</p>
-          <form action="/api/admin/logout" method="POST">
-            <button type="submit" className={styles.logoutBtn}>
-              Deconectare
-            </button>
-          </form>
+        <div className={styles.brand}>
+          <Logo organizationName="Fii Schimbarea" href="/admin" />
         </div>
+
+        <AdminNav />
+
+        <div className={styles.leaf} aria-hidden="true">
+          <IconLeafSprig width={90} height={110} />
+        </div>
+
+        <HelpBox />
       </aside>
-      <main className={styles.main}>{children}</main>
+
+      <div className={styles.content}>
+        <Topbar status={status} email={session.email} role={adminUser?.role ?? "ADMIN"} />
+        <main className={styles.main}>{children}</main>
+      </div>
     </div>
   );
 }

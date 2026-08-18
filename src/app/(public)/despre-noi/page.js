@@ -39,8 +39,8 @@ export default async function DespreNoiPage() {
           </>
         }
         lead={content["hero.lead"]}
-        primaryCta={{ href: "/doneaza", label: "Donează acum" }}
-        secondaryCta={{ href: "#povestea-noastra", label: "Află mai multe" }}
+        primaryCta={{ href: "/doneaza", label: content["hero.ctaPrimary"] }}
+        secondaryCta={{ href: "#povestea-noastra", label: content["hero.ctaSecondary"] }}
         imageSrc="/assets/2-maini-comunitate.png"
         imageAlt="Mâini unite, simbol al comunității"
         badgeText="Împreună facem diferența"

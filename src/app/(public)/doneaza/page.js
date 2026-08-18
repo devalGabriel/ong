@@ -5,6 +5,7 @@ import DonationAmountPicker from "@/components/public/DonationAmountPicker";
 import CopyButton from "@/components/public/CopyButton";
 import { IconHeart, IconBuilding, IconUsers, IconPerson, IconHeartHand, IconShield, IconLock } from "@/components/public/icons";
 import { getSiteSettings } from "@/lib/settings/get-site-settings";
+import { getPageContent } from "@/lib/content/get-page-content";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -35,6 +36,7 @@ const TRUST_ITEMS = [
 
 export default async function DoneazaPage() {
   const settings = await getSiteSettings();
+  const content = await getPageContent("doneaza");
   const providerConfigured = Boolean(settings.donationProviderType && settings.donationProviderPublicUrl);
   const providerLabel = PROVIDER_LABELS[settings.donationProviderType] ?? "provider extern";
 
@@ -48,7 +50,7 @@ export default async function DoneazaPage() {
             O donație mică poate <span className="accent">schimba o viață</span>.
           </>
         }
-        lead="Susține copiii și pacienții din spitale, comunitățile vulnerabile și proiectele care aduc speranță acolo unde este cea mai mare nevoie."
+        lead={content["hero.lead"]}
         imageSrc="/assets/1-hero-copil-spital.png"
         imageAlt="Copil ținând o jucărie de pluș"
         badgeText="Împreună facem diferența"

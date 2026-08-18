@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-export default function Logo({ organizationName }) {
+export default function Logo({ organizationName, href = "/" }) {
   const name = organizationName?.trim() || "Fii Schimbarea";
 
   return (
-    <Link href="/" aria-label={`Pagina principală ${name}`} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
+    <Link href={href} aria-label={`Pagina principală ${name}`} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
       <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
         <circle cx="14" cy="17" r="10" fill="var(--color-primary)" opacity="0.9" />
         <circle cx="21" cy="14" r="8" fill="var(--color-secondary)" opacity="0.85" />

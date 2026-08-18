@@ -1,20 +1,45 @@
-import styles from "./layout.module.css";
+import { getRegistryStats } from "@/lib/content/get-registry-stats";
+import { IconPages, IconDashboard, IconCalendar, IconCheck } from "@/components/admin/icons";
+import styles from "./page.module.css";
 
 export const metadata = {
   title: "Dashboard admin",
   robots: { index: false, follow: false },
 };
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+  const stats = await getRegistryStats();
+
+  const lastUpdatedLabel = stats.lastUpdatedAt
+    ? new Intl.DateTimeFormat("ro-RO", { dateStyle: "long" }).format(stats.lastUpdatedAt)
+    : "—";
+
+  const cards = [
+    { icon: IconPages, label: "Pagini active", value: `${stats.pageCount}`, caption: `din ${stats.pageCount} pagini` },
+    { icon: IconDashboard, label: "Secțiuni editabile", value: `${stats.totalFields}`, caption: "câmpuri" },
+    { icon: IconCalendar, label: "Ultima actualizare", value: lastUpdatedLabel, caption: stats.lastUpdatedAt ? "" : "niciun text salvat încă" },
+    { icon: IconCheck, label: "Texte personalizate", value: `${stats.publishedPct}%`, caption: "din total câmpuri" },
+  ];
+
   return (
     <>
-      <h1 className={styles.pageTitle}>Dashboard</h1>
-      <p>Bine ai venit în panoul de administrare.</p>
-      <ul>
-        <li>Conținut — administrare texte pagini (disponibil din Stage 6)</li>
-        <li>Transparență — administrare documente PDF (disponibil din Stage 8)</li>
-        <li>Setări — date organizație și configurare (disponibil din Stage 7)</li>
-      </ul>
+      <div className={styles.intro}>
+        <h1>Dashboard</h1>
+        <p>Bine ai venit în panoul de administrare.</p>
+      </div>
+
+      <div className="stats-grid">
+        {cards.map(({ icon: Icon, label, value, caption }) => (
+          <div className="stat-card" key={label}>
+            <span className="stat-icon">
+              <Icon />
+            </span>
+            <p className="stat-value">{value}</p>
+            <p className="stat-label">{label}</p>
+            {caption && <p className={styles.statCaption}>{caption}</p>}
+          </div>
+        ))}
+      </div>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import { SETTINGS_FIELDS } from "@/lib/settings/fields";
 import { getSiteSettings } from "@/lib/settings/get-site-settings";
+import SettingsField from "@/components/admin/SettingsField";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -11,33 +12,7 @@ const GROUPS = [
   { title: "Organizație", keys: ["organizationName", "legalName", "fiscalCode", "address"] },
   { title: "Contact", keys: ["email", "phone"] },
   { title: "Rețele sociale", keys: ["facebookUrl", "instagramUrl", "tiktokUrl"] },
-  { title: "Date bancare", keys: ["ibanRon", "ibanEur", "bankName"] },
-  { title: "Donații", keys: ["donationProviderType", "donationProviderPublicUrl"] },
 ];
-
-function renderField(field, value) {
-  const inputId = `settings-${field.key}`;
-  const commonProps = { id: inputId, name: field.key, maxLength: field.maxLength, defaultValue: value };
-
-  if (field.type === "textarea") {
-    return <textarea rows={3} {...commonProps} />;
-  }
-
-  if (field.type === "select") {
-    return (
-      <select id={inputId} name={field.key} defaultValue={value}>
-        {field.options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    );
-  }
-
-  const htmlType = field.type === "iban" ? "text" : field.type;
-  return <input type={htmlType} {...commonProps} />;
-}
 
 export default async function AdminSetariPage({ searchParams }) {
   const query = await searchParams;
@@ -50,7 +25,7 @@ export default async function AdminSetariPage({ searchParams }) {
   return (
     <>
       <h1>Setări</h1>
-      <p>Date despre organizație, contact, rețele sociale, cont bancar și provider de donații — reutilizate în footer, contact și pagina de donații.</p>
+      <p>Date despre organizație, contact și rețele sociale — reutilizate în footer și pagina de contact. Datele bancare și de donații s-au mutat în secțiunea Donații.</p>
 
       {saved && <p className={`${styles.banner} ${styles.success}`}>Setările au fost salvate.</p>}
       {hasError && (
@@ -70,7 +45,7 @@ export default async function AdminSetariPage({ searchParams }) {
                 return (
                   <div className={`${styles.field} ${wide ? styles.fullWidth : ""}`} key={key}>
                     <label htmlFor={`settings-${key}`}>{field.label}</label>
-                    {renderField(field, settings[key])}
+                    <SettingsField field={field} value={settings[key]} />
                   </div>
                 );
               })}

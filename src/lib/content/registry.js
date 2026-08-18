@@ -4,7 +4,8 @@
  * This is the single source of truth for:
  *  - which text fields the admin can edit (drives the admin form),
  *  - the fallback/seed value used when no override exists yet,
- *  - server-side validation (only keys defined here can be written).
+ *  - server-side validation (only keys defined here can be written),
+ *  - the (read-only) section list shown in the admin editor.
  *
  * Admin edits values inside these slots only — it cannot add sections,
  * change page structure, or write HTML/CSS/JS.
@@ -13,6 +14,7 @@ export const CONTENT_REGISTRY = {
   home: {
     label: "Acasă",
     route: "/",
+    sectionLabels: { hero: "Secțiunea principală (Hero)", about: "Cine suntem" },
     fields: [
       {
         sectionKey: "hero",
@@ -31,6 +33,22 @@ export const CONTENT_REGISTRY = {
         fallback: "Susținem oamenii și spitalele din România, pentru un viitor mai bun și mai demn pentru toți.",
       },
       {
+        sectionKey: "hero",
+        contentKey: "ctaPrimary",
+        type: "text",
+        label: "Text buton principal",
+        maxLength: 25,
+        fallback: "Donează acum",
+      },
+      {
+        sectionKey: "hero",
+        contentKey: "ctaSecondary",
+        type: "text",
+        label: "Text buton secundar",
+        maxLength: 25,
+        fallback: "Află mai multe",
+      },
+      {
         sectionKey: "about",
         contentKey: "body",
         type: "textarea",
@@ -43,6 +61,7 @@ export const CONTENT_REGISTRY = {
   "despre-noi": {
     label: "Despre noi",
     route: "/despre-noi",
+    sectionLabels: { hero: "Secțiunea principală (Hero)", story: "Povestea noastră" },
     fields: [
       {
         sectionKey: "hero",
@@ -51,6 +70,22 @@ export const CONTENT_REGISTRY = {
         label: "Descriere sub titlul principal",
         maxLength: 400,
         fallback: "Suntem o comunitate de oameni implicați care cred în puterea binelui de a transforma vieți și de a construi un viitor mai bun pentru toți.",
+      },
+      {
+        sectionKey: "hero",
+        contentKey: "ctaPrimary",
+        type: "text",
+        label: "Text buton principal",
+        maxLength: 25,
+        fallback: "Donează acum",
+      },
+      {
+        sectionKey: "hero",
+        contentKey: "ctaSecondary",
+        type: "text",
+        label: "Text buton secundar",
+        maxLength: 25,
+        fallback: "Află mai multe",
       },
       {
         sectionKey: "story",
@@ -73,6 +108,7 @@ export const CONTENT_REGISTRY = {
   proiecte: {
     label: "Proiecte",
     route: "/proiecte",
+    sectionLabels: { hero: "Secțiunea principală (Hero)", spotlight: "Proiect de impact" },
     fields: [
       {
         sectionKey: "hero",
@@ -95,6 +131,7 @@ export const CONTENT_REGISTRY = {
   "implica-te": {
     label: "Implică-te",
     route: "/implica-te",
+    sectionLabels: { hero: "Secțiunea principală (Hero)" },
     fields: [
       {
         sectionKey: "hero",
@@ -104,11 +141,28 @@ export const CONTENT_REGISTRY = {
         maxLength: 400,
         fallback: "Fiecare gest contează. Împreună construim comunități unite și spitale mai bine echipate.",
       },
+      {
+        sectionKey: "hero",
+        contentKey: "ctaPrimary",
+        type: "text",
+        label: "Text buton principal",
+        maxLength: 25,
+        fallback: "Donează acum",
+      },
+      {
+        sectionKey: "hero",
+        contentKey: "ctaSecondary",
+        type: "text",
+        label: "Text buton secundar",
+        maxLength: 25,
+        fallback: "Află mai multe",
+      },
     ],
   },
   transparenta: {
     label: "Transparență",
     route: "/transparenta",
+    sectionLabels: { hero: "Secțiunea principală (Hero)", org: "Date organizație" },
     fields: [
       {
         sectionKey: "hero",
@@ -131,6 +185,7 @@ export const CONTENT_REGISTRY = {
   noutati: {
     label: "Noutăți",
     route: "/noutati",
+    sectionLabels: { hero: "Secțiunea principală (Hero)" },
     fields: [
       {
         sectionKey: "hero",
@@ -145,6 +200,7 @@ export const CONTENT_REGISTRY = {
   contact: {
     label: "Contact",
     route: "/contact",
+    sectionLabels: { hero: "Secțiunea principală (Hero)" },
     fields: [
       {
         sectionKey: "hero",
@@ -153,6 +209,21 @@ export const CONTENT_REGISTRY = {
         label: "Descriere sub titlul principal",
         maxLength: 400,
         fallback: "Ai o întrebare, o propunere de parteneriat sau vrei să afli mai multe despre activitatea noastră? Scrie-ne sau sună-ne. Răspundem cu drag și cât mai repede posibil.",
+      },
+    ],
+  },
+  doneaza: {
+    label: "Donează",
+    route: "/doneaza",
+    sectionLabels: { hero: "Secțiunea principală (Hero)" },
+    fields: [
+      {
+        sectionKey: "hero",
+        contentKey: "lead",
+        type: "textarea",
+        label: "Descriere sub titlul principal",
+        maxLength: 400,
+        fallback: "Susține copiii și pacienții din spitale, comunitățile vulnerabile și proiectele care aduc speranță acolo unde este cea mai mare nevoie.",
       },
     ],
   },

@@ -1,14 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getRegistryPage } from "@/lib/content/registry";
+import { CONTENT_REGISTRY, getRegistryPage } from "@/lib/content/registry";
 import { getPageContent } from "@/lib/content/get-page-content";
+import { getPageSections } from "@/lib/content/get-page-sections";
+import SectionCard from "@/components/admin/SectionCard";
+import LivePreviewPanel from "@/components/admin/LivePreviewPanel";
 import styles from "./page.module.css";
 
 export async function generateMetadata({ params }) {
   const { pageKey } = await params;
   const page = getRegistryPage(pageKey);
   return {
-    title: page ? `${page.label} · Conținut · Admin` : "Conținut · Admin",
+    title: page ? `${page.label} · Texte · Admin` : "Texte · Admin",
     robots: { index: false, follow: false },
   };
 }
@@ -27,14 +30,27 @@ export default async function AdminContinutEditPage({ params, searchParams }) {
   const errorField = query?.field;
 
   const content = await getPageContent(pageKey);
+  const sections = getPageSections(pageKey);
 
   return (
     <>
-      <Link href="/admin/continut" className={styles.back}>
-        ← Toate paginile
-      </Link>
-      <h1>{page.label}</h1>
-      <p>Editează textele disponibile pentru această pagină. Structura și designul paginii nu se modifică.</p>
+      <nav className={styles.tabStrip} aria-label="Pagini disponibile pentru editare">
+        {Object.entries(CONTENT_REGISTRY).map(([key, entry]) => (
+          <Link key={key} href={`/admin/continut/${key}`} className={`${styles.tab} ${key === pageKey ? styles.tabActive : ""}`}>
+            {entry.label}
+          </Link>
+        ))}
+      </nav>
+
+      <div className={styles.editorHeader}>
+        <div className={styles.editorHeaderLeft}>
+          <h1>Editează pagina: {page.label}</h1>
+          <span className={styles.publishedBadge}>Publicat</span>
+        </div>
+        <Link href={page.route} target="_blank" rel="noreferrer" className={styles.previewLink}>
+          Previzualizează ↗
+        </Link>
+      </div>
 
       {saved && <p className={`${styles.banner} ${styles.success}`}>Modificările au fost salvate.</p>}
       {hasError && (
@@ -43,28 +59,21 @@ export default async function AdminContinutEditPage({ params, searchParams }) {
         </p>
       )}
 
-      <form method="POST" action={`/api/admin/content/${pageKey}`}>
-        {page.fields.map((field) => {
-          const key = `${field.sectionKey}.${field.contentKey}`;
-          const inputId = `field-${pageKey}-${field.sectionKey}-${field.contentKey}`;
+      <div className={styles.layout}>
+        <form method="POST" action={`/api/admin/content/${pageKey}`}>
+          {sections.map((section, index) => (
+            <SectionCard key={section.sectionKey} section={section} pageKey={pageKey} content={content} defaultOpen={index === 0} />
+          ))}
 
-          return (
-            <div className={styles.field} key={key}>
-              <label htmlFor={inputId}>{field.label}</label>
-              {field.type === "textarea" ? (
-                <textarea id={inputId} name={key} rows={4} maxLength={field.maxLength} defaultValue={content[key]} />
-              ) : (
-                <input id={inputId} name={key} type="text" maxLength={field.maxLength} defaultValue={content[key]} />
-              )}
-              <span className={styles.hint}>Maximum {field.maxLength} de caractere. Lasă gol pentru a reveni la textul implicit.</span>
-            </div>
-          );
-        })}
+          <button type="submit" className="btn-primary">
+            Salvează modificările
+          </button>
+        </form>
 
-        <button type="submit" className="btn-primary">
-          Salvează
-        </button>
-      </form>
+        <div className={styles.previewCol}>
+          <LivePreviewPanel route={page.route} refreshToken={query?.saved ?? "0"} />
+        </div>
+      </div>
     </>
   );
 }
