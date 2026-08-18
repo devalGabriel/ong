@@ -3,6 +3,9 @@ import Link from "next/link";
 import PageHero from "@/components/public/PageHero";
 import { IconHeart, IconBuilding, IconUsers, IconLeaf } from "@/components/public/icons";
 import { getPageContent } from "@/lib/content/get-page-content";
+import { getPublishedDocuments } from "@/lib/documents/get-published-documents";
+import { getCategoryLabel } from "@/lib/documents/categories";
+import { formatFileSize } from "@/lib/documents/format-size";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -28,6 +31,7 @@ const TIMELINE = ["[DE CONFIGURAT]", "[DE CONFIGURAT]", "[DE CONFIGURAT]", "[DE 
 
 export default async function TransparentaPage() {
   const content = await getPageContent("transparenta");
+  const documents = await getPublishedDocuments();
 
   return (
     <>
@@ -97,10 +101,27 @@ export default async function TransparentaPage() {
         <div className="container">
           <p className="eyebrow">Rapoarte și documente</p>
           <h2>Documente disponibile</h2>
-          <p style={{ maxWidth: "40rem" }}>Ne dorim ca informațiile despre activitatea noastră să fie ușor de accesat. Rapoartele și documentele relevante vor fi publicate aici.</p>
-          <div className="empty-state" style={{ marginTop: "var(--space-4)" }}>
-            Niciun document publicat momentan. Administrarea documentelor de transparență va fi disponibilă într-o etapă viitoare.
-          </div>
+          <p style={{ maxWidth: "40rem" }}>Ne dorim ca informațiile despre activitatea noastră să fie ușor de accesat. Rapoartele și documentele relevante sunt publicate aici.</p>
+          {documents.length === 0 ? (
+            <div className="empty-state" style={{ marginTop: "var(--space-4)" }}>
+              Niciun document publicat momentan.
+            </div>
+          ) : (
+            <div className={styles.documentsGrid}>
+              {documents.map((doc) => (
+                <div className={`card ${styles.documentCard}`} key={doc.id}>
+                  <span className={styles.documentBadge}>PDF</span>
+                  <h3>{doc.title}</h3>
+                  <p className={styles.documentMeta}>
+                    {getCategoryLabel(doc.category)} · {doc.year} · {formatFileSize(doc.sizeBytes)}
+                  </p>
+                  <a href={`/api/documents/${doc.id}?download=1`} className="link-arrow">
+                    Descarcă →
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

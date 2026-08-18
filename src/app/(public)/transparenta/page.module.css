@@ -4,6 +4,48 @@
   align-items: start;
 }
 
+.documentsGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-4);
+}
+
+.documentBadge {
+  display: inline-block;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  color: var(--color-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+}
+
+.documentCard h3 {
+  margin: 0 0 var(--space-1);
+  font-size: 1rem;
+}
+
+.documentMeta {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  margin: 0 0 var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .documentsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .documentsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .reasonsRow {
   display: grid;
   gap: var(--space-3);

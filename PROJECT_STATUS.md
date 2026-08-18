@@ -5,9 +5,10 @@
 - Architecture: Next.js full-stack on VPS
 - Database: SQLite + Prisma
 - PDF storage: local persistent disk
-- Current stage: STAGE 7
-- Overall status: STAGE 7 PASS
-- GitHub: https://github.com/devalGabriel/ong (branch `master`, pushed through Stage 6 so far)
+- Current stage: STAGE 8
+- Overall status: STAGE 8 PASS
+- GitHub: https://github.com/devalGabriel/ong (branch `master`, pushed through Stage 7 + Playwright tooling so far)
+- Dev tooling: Playwright installed (`npm run screenshot -- <route> [route2] ...`) for visual QA against mock-ups — run from PowerShell, not Git Bash (Git Bash mangles leading `/` route arguments into Windows paths)
 
 | Stage | Status | Lint | Build | DB/Migration | Review |
 |---|---|---|---|---|---|
@@ -19,7 +20,7 @@
 | 5 Auth/Admin | PASS | PASS | PASS | PASS (seed only, no new migration) | Pending |
 | 6 Content management | PASS | PASS | PASS | PASS (no new migration, existing `PageContent` table) | Pending |
 | 7 Site settings | PASS | PASS | PASS | PASS (no new migration, existing `SiteSettings` table) | Pending |
-| 8 Transparency PDFs | NOT STARTED | Pending | Pending | Pending | Pending |
+| 8 Transparency PDFs | PASS | PASS | PASS | PASS (no new migration, existing `TransparencyDocument` table) | Pending |
 | 9 Donations | NOT STARTED | Pending | Pending | N/A | Pending |
 | 10 Hardening/Deploy | NOT STARTED | Pending | Pending | Pending | Pending |
 
@@ -87,6 +88,30 @@
 - Front reuse: `(public)/layout.js` now fetches settings once and passes them into `Header`/`Logo` (organization name) and `Footer` (name, description slot, address/phone/email, social links — icons only render for links that are actually set); the Contact page's "Date de contact" block reads the same address/email/phone. `/doneaza` deliberately untouched — still the Stage 1 placeholder, real IBAN-fallback UI is Stage 9's job.
 - Save calls `revalidatePath("/", "layout")` (not a single path) since Footer/Header live in layouts shared by every public route — confirmed via the bundled Next.js docs that revalidating a layout cascades to all nested layouts and pages under it.
 - Tested against a production build (`next start`): unauthorized write → 401; invalid email/URL/IBAN each rejected without writing; valid save persists and shows up immediately on both `/` (footer) and `/contact`; clearing one field (blank optional) removes just that value (e.g. Facebook link disappears from the footer) without disturbing the rest. Dev DB reset to empty afterward.
+
+## Stage 8 notes
+- Real bug caught by testing, not by inspection: Next.js's Proxy buffers request bodies up to `experimental.proxyClientMaxBodySize` (default 10MB) *before* the route handler ever sees them; my own `TRANSPARENCY_MAX_UPLOAD_BYTES` app-level check also defaulted to 10MB. An 11MB upload landed exactly in the gap — the proxy silently truncated the body, `request.formData()` then threw on the broken multipart boundary, and it surfaced as a raw 500. Fixed by raising `proxyClientMaxBodySize` to `"15mb"` in `next.config.mjs` (headroom above the app limit) and wrapping `request.formData()` in a try/catch that redirects with a clean `file-size` error either way — so this is handled even if someone sends a request bigger than the raised proxy limit too.
+- Upload validation never trusts the client: extension check, then declared MIME check, then `%PDF-` magic-byte check on the actual buffer, then size check — in that order, all server-side, before anything touches disk or DB.
+- Stored filenames are `crypto.randomUUID() + ".pdf"` (`src/lib/documents/generate-stored-name.js`) — never derived from the client's original filename, which is kept only as DB metadata (`originalName`) and reused solely for the `Content-Disposition` header on download (stripped of quotes/newlines).
+- Filesystem write and DB write are explicitly non-atomic and handled as such: upload cleans up the orphaned file if the DB `create` fails after the file was already written; delete removes the physical file first and still deletes the DB row even if the file delete fails (a dangling DB row pointing at a missing file is worse for the public site than an orphaned file on disk) — surfaced to the admin via a `fileWarning` flag rather than silently claiming success either way.
+- Category is a controlled 3-option select (`src/lib/documents/categories.js`: raport-anual / situatie-financiara / document-util) — not free text, consistent with the project's "controlled select, no arbitrary content" rule.
+- Full negative-test matrix run against a **production** build (`next start`), using real fixture files (valid PDF header, plain `.txt`, a `.pdf`-renamed file with a spoofed `application/pdf` client MIME but no real PDF header, an 11MB file, and Windows-path curl uploads — Git Bash's `curl -F @path` needed native `C:\...` paths, not POSIX `/c/...`, to actually find the file):
+
+| Test | Result |
+|---|---|
+| Unauthenticated upload | 401, nothing written |
+| Valid upload (authenticated) | saved, file on disk with a UUID name, DB row created |
+| Wrong extension (`.txt`) | rejected (`file-extension`), before any content is read |
+| Spoofed MIME, fake PDF content | rejected (`file-signature`) — proves the magic-byte check catches what extension+MIME alone would miss |
+| Oversized file (>10MB) | rejected (`file-size`) after the proxy-body-limit fix, no crash |
+| Path traversal (`../../../etc/passwd`, backslash variants) | rejected at the storage layer (`path.basename` guard) — tested directly against `src/lib/storage/local.js` since no HTTP parameter ever accepts a raw filename by design |
+| Unpublished doc via public `/api/documents/[id]` | 404 |
+| Published doc via public `/api/documents/[id]` | 200, correct `Content-Type`/`Content-Disposition`/`Content-Length`; `?download=1` switches to `attachment` |
+| Invalid delete/update ID | 404, no crash |
+| Unauthenticated delete | 401 |
+| Full delete lifecycle | file removed from `storage/transparency/`, DB row removed, public page reverts to empty state |
+
+Dev storage/DB reset to empty afterward.
 
 ## Stage 1 known risk
 `npm audit` reports 3 high-severity advisories against `deepmerge-ts` (via `@prisma/config`), affecting all current Prisma 7.x releases. `npm audit fix --force` would downgrade to `prisma@6.12.0`, which conflicts with the required Prisma major version 7 — left unfixed, tracked for re-check when a patched Prisma 7 release is available.
