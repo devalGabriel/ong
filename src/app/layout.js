@@ -2,10 +2,10 @@ import "@/styles/globals.css";
 
 export const metadata = {
   title: {
-    default: "[Numele Organizației]",
-    template: "%s | [Numele Organizației]",
+    default: "Fii Schimbarea",
+    template: "%s | Fii Schimbarea",
   },
-  description: "[DE CONFIGURAT: descriere organizație]",
+  description: "Fii Schimbarea susține oamenii și spitalele din România, pentru un viitor mai bun și mai demn pentru toți.",
 };
 
 export default function RootLayout({ children }) {

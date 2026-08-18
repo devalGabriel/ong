@@ -20,7 +20,7 @@ export default async function AdminShellLayout({ children }) {
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
-        <p className={styles.brand}>[Numele Organizației] · Admin</p>
+        <p className={styles.brand}>Fii Schimbarea · Admin</p>
         <AdminNav />
         <Link href="/" target="_blank" rel="noreferrer" className={styles.viewSite}>
           Vezi site ↗

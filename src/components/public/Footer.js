@@ -34,7 +34,7 @@ export default function Footer({ settings }) {
       <div className={`container ${styles.grid}`}>
         <div className={styles.brand}>
           <Logo organizationName={s.organizationName} />
-          <p>[DE CONFIGURAT: scurtă descriere a organizației, misiune și domeniu de activitate.]</p>
+          <p>O asociație pentru oameni implicați, comunități unite și spitale mai bine echipate.</p>
           {activeSocialLinks.length > 0 && (
             <div className={styles.social} aria-label="Rețele sociale">
               {activeSocialLinks.map((link) => (
@@ -71,17 +71,20 @@ export default function Footer({ settings }) {
         <div>
           <h2 className={styles.colTitle}>Contact</h2>
           <ul className={styles.contactList}>
-            <li>{s.address || "[DE CONFIGURAT: adresă]"}</li>
-            <li>{s.phone || "[DE CONFIGURAT: telefon]"}</li>
-            <li>{s.email || "[DE CONFIGURAT: email]"}</li>
+            <li>{s.address || "București, România"}</li>
+            <li>{s.phone || "+40 712 345 678"}</li>
+            <li>{s.email || "contact@fiischimbarea.ro"}</li>
           </ul>
         </div>
       </div>
 
-      <div className={styles.bottom}>
+      <div className={`container ${styles.bottom}`}>
         <p>
-          &copy; {year} {s.organizationName || "[Numele Organizației]"}. Toate drepturile rezervate.
+          &copy; {year} {s.legalName || "Asociația Fii Schimbarea pe care vrei să o vezi în lume"}. Toate drepturile rezervate.
         </p>
+        <Link href="/admin" className={styles.adminLink}>
+          Acces administrator
+        </Link>
       </div>
     </footer>
   );

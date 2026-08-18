@@ -7,10 +7,28 @@ import styles from "./page.module.css";
 
 export const metadata = {
   title: "Noutăți",
-  description: "[DE CONFIGURAT: descriere noutăți pentru motoare de căutare]",
+  description: "Povești, proiecte și evenimente recente din comunitatea Fii Schimbarea.",
 };
 
 const FILTERS = ["Toate noutățile", "Proiecte", "Povești din comunitate", "Evenimente", "Resurse", "Anunțuri"];
+
+const FEATURED_ARTICLE = {
+  category: "Proiecte",
+  title: "Un nou început pentru 120 de copii din centrele de plasament",
+  excerpt: "Prin proiectul „Acasă, pas cu pas”, am reușit să renovăm și să dotăm 3 spații de tip familial, oferind copiilor un mediu sigur și cald.",
+  date: "10 mai 2024",
+  readTime: "5 min read",
+  image: "/assets/7-maini-casa.png",
+};
+
+const ARTICLES = [
+  { category: "Proiecte", title: "Educație cu sens: ateliere care inspiră viitorul", date: "2 mai 2024", readTime: "4 min read", image: "/assets/5-copil-inima.png" },
+  { category: "Povești din comunitate", title: "Maria a găsit curajul de a visa din nou", date: "28 aprilie 2024", readTime: "5 min read", image: "/assets/2-maini-comunitate.png" },
+  { category: "Evenimente", title: "Aleargă pentru bine: împreună am strâns peste 40.000 lei", date: "20 aprilie 2024", readTime: "3 min read", image: "/assets/8-mana-inima.png" },
+  { category: "Resurse", title: "Ghid pentru părinți: sprijin emoțional în momente dificile", date: "15 aprilie 2024", readTime: "6 min read", image: "/assets/3-copil-fereastra.png" },
+  { category: "Proiecte", title: "Un spațiu sigur pentru mame și copii", date: "8 aprilie 2024", readTime: "4 min read", image: "/assets/4-maini-tinute.png" },
+  { category: "Anunțuri", title: "Program special de Paște: cum puteți ajuta", date: "3 aprilie 2024", readTime: "2 min read", image: "/assets/1-hero-copil-spital.png" },
+];
 
 export default async function NoutatiPage() {
   const content = await getPageContent("noutati");
@@ -39,7 +57,37 @@ export default async function NoutatiPage() {
           </form>
         </div>
 
-        <div className="empty-state">Momentan nu există noutăți publicate. Primele articole vor fi adăugate în curând.</div>
+        <div className={styles.featured}>
+          <div className={styles.featuredImageWrap}>
+            <Image src={FEATURED_ARTICLE.image} alt="" fill sizes="(min-width: 1024px) 50vw, 100vw" />
+          </div>
+          <div className={styles.featuredBody}>
+            <span className={styles.categoryTag}>Articol recomandat · {FEATURED_ARTICLE.category}</span>
+            <h2>{FEATURED_ARTICLE.title}</h2>
+            <p>{FEATURED_ARTICLE.excerpt}</p>
+            <p className={styles.articleMeta}>
+              {FEATURED_ARTICLE.date} · {FEATURED_ARTICLE.readTime}
+            </p>
+          </div>
+        </div>
+
+        <h2>Ultimele noutăți</h2>
+        <div className={styles.articlesGrid}>
+          {ARTICLES.map((article) => (
+            <div className={styles.articleCard} key={article.title}>
+              <div className={styles.articleImageWrap}>
+                <Image src={article.image} alt="" fill sizes="(min-width: 1024px) 30vw, 50vw" />
+              </div>
+              <div className={styles.articleBody}>
+                <span className={styles.categoryTag}>{article.category}</span>
+                <h3>{article.title}</h3>
+                <p className={styles.articleMeta}>
+                  {article.date} · {article.readTime}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="container section">

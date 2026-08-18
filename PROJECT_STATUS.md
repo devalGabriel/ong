@@ -5,9 +5,9 @@
 - Architecture: Next.js full-stack on VPS
 - Database: SQLite + Prisma
 - PDF storage: local persistent disk
-- Current stage: STAGE 8
-- Overall status: STAGE 8 PASS
-- GitHub: https://github.com/devalGabriel/ong (branch `master`, pushed through Stage 7 + Playwright tooling so far)
+- Current stage: STAGE 9 + content-population pass (out-of-band, user-directed)
+- Overall status: STAGE 9 PASS; see "Content-population pass" note below for a significant post-Stage-9 change
+- GitHub: https://github.com/devalGabriel/ong (branch `master`, pushed through Stage 8 so far)
 - Dev tooling: Playwright installed (`npm run screenshot -- <route> [route2] ...`) for visual QA against mock-ups — run from PowerShell, not Git Bash (Git Bash mangles leading `/` route arguments into Windows paths)
 
 | Stage | Status | Lint | Build | DB/Migration | Review |
@@ -15,13 +15,13 @@
 | 0 Preflight | APPROVED | N/A | N/A | N/A | Approved |
 | 1 Foundation | PASS | PASS | PASS | PASS | Pending |
 | 2 Homepage | PASS | PASS | PASS | N/A | Superseded by Stage 3 |
-| 3 Visual refinement | PASS | PASS | PASS | N/A | Pending — no screenshots (browser tooling unavailable this session) |
+| 3 Visual refinement | PASS | PASS | PASS | N/A | Pending — no screenshots at the time (Playwright now installed since Stage 8 prep; a real visual re-check is still owed) |
 | 4 Public pages | PASS | PASS | PASS | N/A | Pending |
 | 5 Auth/Admin | PASS | PASS | PASS | PASS (seed only, no new migration) | Pending |
 | 6 Content management | PASS | PASS | PASS | PASS (no new migration, existing `PageContent` table) | Pending |
 | 7 Site settings | PASS | PASS | PASS | PASS (no new migration, existing `SiteSettings` table) | Pending |
 | 8 Transparency PDFs | PASS | PASS | PASS | PASS (no new migration, existing `TransparencyDocument` table) | Pending |
-| 9 Donations | NOT STARTED | Pending | Pending | N/A | Pending |
+| 9 Donations | PASS | PASS | PASS | N/A | Pending |
 | 10 Hardening/Deploy | NOT STARTED | Pending | Pending | Pending | Pending |
 
 ## Decisions
@@ -112,6 +112,29 @@
 | Full delete lifecycle | file removed from `storage/transparency/`, DB row removed, public page reverts to empty state |
 
 Dev storage/DB reset to empty afterward.
+
+## Stage 9 notes
+- Provider classification at time of implementation: **B — not configured** (`SiteSettings.donationProviderType`/`donationProviderPublicUrl` empty in the dev DB, no real credentials given). Verified both states actually render correctly by temporarily setting a test provider (`stripe` / a placeholder `donate.stripe.com` URL) via the Stage 7 admin settings API, screenshotting both, then reverting — not just reasoned about in the abstract.
+- No card fields, payment secrets, or improvised payment backend anywhere — grepped the new code for card/CVV/expiry/API-key terms, zero matches. When a provider *is* configured, the page only ever links out (`target="_blank"`) to the admin-entered `donationProviderPublicUrl` exactly as stored — no query-string amount/donor-data is appended, since I don't know any real provider's expected contract and CLAUDE.md forbids inventing one. The donor-info form and amount picker are local UI state only (Client Components, nothing submitted anywhere); a visible `[DE CONFIGURAT]` note says so explicitly, matching the pattern already used on Contact/Implică-te.
+- IBAN/bank-name from `SiteSettings` render with a working "Copiază" (clipboard) button when set, and a bracketed placeholder when not — reused, not reimplemented.
+- Mock-up's 3-way payment method list (Card bancar / Transfer bancar / Plată prin redirecționare) was intentionally simplified to 2 (online-via-provider-link / bank transfer) — the first two both really mean "hand off to an external provider," which is one code path here, not two we can meaningfully distinguish without a real integration. Noted as a deliberate adaptation, not an oversight.
+- No `/doneaza/succes` or `/doneaza/eroare` pages were added — MVP is fixed at exactly 8 routes (`CLAUDE.md`), and with no live provider there's no real callback to design a success/error UX around yet; deferred to whenever a real provider is actually integrated (reported as separate scope per the stage prompt, not improvised).
+- Dev DB/settings reset to empty after testing.
+
+## Content-population pass (out-of-band, explicit user override of the "no invented NGO facts" default)
+The user directed (after being shown the conflict and choosing to proceed twice, once for icon extraction — later abandoned as low-quality and reverted — and once specifically for this) that **all page content should match the mock-ups exactly**, reversing the `[DE CONFIGURAT]`-bracket convention used through Stages 2–9. This is a deliberate, explicit, informed override of `CLAUDE.md`'s "no invented NGO facts" rule for demo purposes — not an oversight. Concretely:
+- Org identity is now "Fii Schimbarea" / "pe care vrei să o vezi în lume" everywhere (`Logo.js`, `Footer.js`, root `layout.js` metadata, admin shell branding) — previously `[Numele Organizației]`.
+- `src/lib/content/registry.js` fallback strings (hero copy, about/story text, org-registration blurb) now hold the mock-ups' exact copy instead of bracket placeholders — still overridable later via the Stage 6 admin editor, same mechanism as before.
+- Real stat numbers restored per page (Home: 2+/5000+/20+/100+; Proiecte: 25+/5000+/40+/120+ — the mock-ups use different numbers on different pages; kept each page faithful to its own mock-up rather than reconciling the inconsistency myself).
+- Despre-noi: real team names/roles (Andreea Popescu, Radu Ionescu, Maria Dinu, Vlad Munteanu) with generic person-icon avatars (no fabricated photos); a partner strip with the 5 real company names from the mock-up (Regina Maria, MedLife, BCR, Star Storage, ENGIE) — **rendered as plain text labels, not fabricated logo graphics**, since recreating real trademarks was never in scope even under this content decision.
+- Implică-te: the 3 testimonials from the mock-up restored (Andreea M., Alex D., Ioana P.) with generic avatars, no fabricated photos.
+- Noutăți: rebuilt from an empty-state back to the mock-up's featured article + 6-article grid (specific dates, read-times, and the "peste 40.000 lei" fundraising figure) — **this specific extension was inferred by me from the user's clear pattern of answers, not separately asked** as a third confirmation; flagged here explicitly so it's easy to revisit if that inference was wrong. 4 of the 7 article images are substitutions (no matching photo exists in `assets/`) — reused existing real assets rather than downloading/generating anything.
+- Transparență: real donut percentages (72/14/8/6%) and a real 2018–2023+ timeline restored; the 4 "Documente disponibile" cards are **real uploads through the actual Stage 8 system** (not faked DB rows) — trivial one-line placeholder PDFs, titled/categorized to match the mock-up, uploaded via the tested admin upload flow so downloads genuinely work; real byte sizes shown (don't match the mock-up's fictional "2.4 MB" etc., which is correct — sizes should never be fabricated).
+- Donează: restored the mock-up's exact trust-bar copy including "Peste 10 ani de impact" — this is **inconsistent with Transparență's timeline** (which reads as founded ~2018, i.e. not yet 10 years). This contradiction exists in the source mock-ups themselves (independently AI-generated pages); left both pages faithful to their own mock-up rather than silently reconciling them.
+- A real bug was caught by the screenshot-comparison pass itself: one document title saved as "Situa?ii financiare 2023" — a shell/curl UTF-8 encoding issue with the `ț` character when passed as a plain `-F` argument in Git Bash, not an application bug. Fixed by re-uploading with the title read from a UTF-8 file (`-F "title=<file"`) instead of a shell argument; verified the corrected value both in the DB and on the rendered page.
+- Visually verified all 8 pages via Playwright screenshots against their mock-ups at 1440px (the extraction/screenshot tooling from earlier this session) — composition, spacing, and now content all match closely.
+- Added: "Acces administrator" link in the footer bottom bar, pointing at `/admin` (Proxy already redirects unauthenticated visitors to `/admin/login` and authenticated ones straight to the dashboard, so no extra logic was needed).
+- Reverted: an earlier attempt to extract icons/masks/illustrations from the mock-up PNGs (a background subagent produced 13 low-quality crops) was abandoned by the user as not good enough; the `sharp` dependency was removed again and `public/assets/extracted/` deleted. The site continues to use the hand-built inline SVG icon set from Stages 2–4.
 
 ## Stage 1 known risk
 `npm audit` reports 3 high-severity advisories against `deepmerge-ts` (via `@prisma/config`), affecting all current Prisma 7.x releases. `npm audit fix --force` would downgrade to `prisma@6.12.0`, which conflicts with the required Prisma major version 7 — left unfixed, tracked for re-check when a patched Prisma 7 release is available.

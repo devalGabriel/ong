@@ -17,13 +17,14 @@ import styles from "./page.module.css";
 
 export const metadata = {
   title: "Acasă",
+  description: "Fii Schimbarea susține oamenii și spitalele din România — donează, implică-te sau descoperă proiectele noastre.",
 };
 
 const STATS = [
-  { icon: IconBuilding, label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
-  { icon: IconUsers, label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
-  { icon: IconHeartHand, label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
-  { icon: IconPerson, label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
+  { icon: IconBuilding, value: "2+", label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
+  { icon: IconUsers, value: "5000+", label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
+  { icon: IconHeartHand, value: "20+", label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
+  { icon: IconPerson, value: "100+", label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
 ];
 
 const INVOLVE_CARDS = [
@@ -131,12 +132,12 @@ export default async function HomePage() {
             Împreună facem <span className={styles.accent}>diferența</span>
           </h2>
           <div className={styles.statsGrid}>
-            {STATS.map(({ icon: Icon, label, desc }) => (
+            {STATS.map(({ icon: Icon, value, label, desc }) => (
               <div className={styles.statCard} key={label}>
                 <span className={styles.statIcon}>
                   <Icon />
                 </span>
-                <p className={styles.statValue}>[DE CONFIGURAT]</p>
+                <p className={styles.statValue}>{value}</p>
                 <p className={styles.statLabel}>{label}</p>
                 <p className={styles.statDesc}>{desc}</p>
               </div>

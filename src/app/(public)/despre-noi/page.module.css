@@ -92,6 +92,23 @@
   margin: 0;
 }
 
+.partnersRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.partnerName {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
+
 @media (min-width: 1024px) {
   .storyGrid {
     grid-template-columns: 1fr 1fr;

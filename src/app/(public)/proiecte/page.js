@@ -7,23 +7,23 @@ import styles from "./page.module.css";
 
 export const metadata = {
   title: "Proiecte",
-  description: "[DE CONFIGURAT: descriere proiecte pentru motoare de căutare]",
+  description: "Descoperă proiectele Fii Schimbarea pentru spitale, comunități și campanii cu impact real.",
 };
 
 const FILTERS = ["Toate", "Spitale", "Comunități", "Campanii"];
 
 const PROJECTS = [
-  { image: "/assets/6-monitor-medical.png", tag: "Spitale", title: "Dotăm cu grijă", desc: "[DE CONFIGURAT: descriere proiect]" },
-  { image: "/assets/2-maini-comunitate.png", tag: "Comunități", title: "Dăruim pentru viață", desc: "[DE CONFIGURAT: descriere proiect]" },
-  { image: "/assets/1-hero-copil-spital.png", tag: "Spitale", title: "Zâmbete în spital", desc: "[DE CONFIGURAT: descriere proiect]" },
-  { image: "/assets/8-mana-inima.png", tag: "Campanii", title: "Campanii cu impact", desc: "[DE CONFIGURAT: descriere proiect]" },
+  { image: "/assets/6-monitor-medical.png", tag: "Spitale", title: "Dotăm cu grijă", desc: "Echipamente medicale esențiale pentru secții și unități spitalicești din România." },
+  { image: "/assets/2-maini-comunitate.png", tag: "Comunități", title: "Dăruim pentru viață", desc: "Sprijinim comunitățile vulnerabile prin donații de alimente, produse și servicii esențiale." },
+  { image: "/assets/1-hero-copil-spital.png", tag: "Spitale", title: "Zâmbete în spital", desc: "Transformăm secțiile de pediatrie în locuri mai prietenoase pentru copii și familii." },
+  { image: "/assets/8-mana-inima.png", tag: "Campanii", title: "Campanii cu impact", desc: "Campanii de conștientizare și strângere de fonduri pentru cauze care contează." },
 ];
 
 const STATS = [
-  { icon: IconBuilding, label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
-  { icon: IconUsers, label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
-  { icon: IconHeartHand, label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
-  { icon: IconPerson, label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
+  { icon: IconBuilding, value: "25+", label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
+  { icon: IconUsers, value: "5000+", label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
+  { icon: IconHeartHand, value: "40+", label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
+  { icon: IconPerson, value: "120+", label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
 ];
 
 export default async function ProiectePage() {
@@ -97,12 +97,12 @@ export default async function ProiectePage() {
             Împreună facem <span className="accent">diferența</span>
           </h2>
           <div className="stats-grid">
-            {STATS.map(({ icon: Icon, label, desc }) => (
+            {STATS.map(({ icon: Icon, value, label, desc }) => (
               <div className="stat-card" key={label}>
                 <span className="stat-icon">
                   <Icon />
                 </span>
-                <p className="stat-value">[DE CONFIGURAT]</p>
+                <p className="stat-value">{value}</p>
                 <p className="stat-label">{label}</p>
                 <p className="stat-desc">{desc}</p>
               </div>

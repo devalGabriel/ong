@@ -10,7 +10,7 @@ import styles from "./page.module.css";
 
 export const metadata = {
   title: "Transparență",
-  description: "[DE CONFIGURAT: descriere transparență pentru motoare de căutare]",
+  description: "Vezi cum folosim donațiile și ce rapoarte publicăm despre activitatea Fii Schimbarea.",
 };
 
 const REASONS = [
@@ -21,13 +21,20 @@ const REASONS = [
 ];
 
 const DONATION_USE = [
-  { title: "Proiecte și programe", desc: "Dotări medicale, renovări, programe pentru pacienți și comunități." },
-  { title: "Administrare", desc: "Cheltuieli administrative necesare pentru buna funcționare a organizației." },
-  { title: "Campanii și fundraising", desc: "Comunicare, strângere de fonduri și implicare a comunității." },
-  { title: "Rezerve și dezvoltare", desc: "Fonduri alocate pentru situații neprevăzute și dezvoltarea organizației." },
+  { pct: "72%", title: "Proiecte și programe", desc: "Dotări medicale, renovări, programe pentru pacienți și comunități." },
+  { pct: "14%", title: "Administrare", desc: "Cheltuieli administrative necesare pentru buna funcționare a organizației." },
+  { pct: "8%", title: "Campanii și fundraising", desc: "Comunicare, strângere de fonduri și implicare a comunității." },
+  { pct: "6%", title: "Rezerve și dezvoltare", desc: "Fonduri alocate pentru situații neprevăzute și dezvoltarea organizației." },
 ];
 
-const TIMELINE = ["[DE CONFIGURAT]", "[DE CONFIGURAT]", "[DE CONFIGURAT]", "[DE CONFIGURAT]", "[DE CONFIGURAT]", "[DE CONFIGURAT]"];
+const TIMELINE = [
+  { year: "2018", event: "Am început cu dorința de a aduce schimbare în sistemul medical." },
+  { year: "2019", event: "Primele proiecte de dotare și renovare în spitale publice." },
+  { year: "2020", event: "Am extins sprijinul către comunități și programe pentru pacienți." },
+  { year: "2021", event: "Mai multă implicare, mai mulți oameni alături de misiunea noastră." },
+  { year: "2022", event: "Peste 100 de proiecte susținute în întreaga Românie." },
+  { year: "2023+", event: "Continuăm să construim împreună un viitor mai bun." },
+];
 
 export default async function TransparentaPage() {
   const content = await getPageContent("transparenta");
@@ -65,7 +72,7 @@ export default async function TransparentaPage() {
             </div>
           </div>
           <div className={styles.infoBox}>
-            <p style={{ fontWeight: 600, color: "var(--color-text)" }}>[Numele Organizației]</p>
+            <p style={{ fontWeight: 600, color: "var(--color-text)" }}>Fii Schimbarea</p>
             <p>{content["org.registrationInfo"]}</p>
             <Link href="/contact" className="link-arrow">
               Vezi date organizație →
@@ -80,9 +87,9 @@ export default async function TransparentaPage() {
           <h2>Fiecare donație are un scop clar</h2>
           <p style={{ maxWidth: "40rem" }}>Resursele primite sunt direcționate cu grijă către proiecte care aduc impact real și măsurabil.</p>
           <div className={styles.donutsGrid}>
-            {DONATION_USE.map(({ title, desc }) => (
+            {DONATION_USE.map(({ pct, title, desc }) => (
               <div className={styles.donutCard} key={title}>
-                <div className={styles.donut}>[DE CONFIGURAT]</div>
+                <div className={styles.donut}>{pct}</div>
                 <h3>{title}</h3>
                 <p>{desc}</p>
               </div>
@@ -130,13 +137,13 @@ export default async function TransparentaPage() {
           <p className="eyebrow">Drumul nostru, împreună</p>
           <h2>Repere importante</h2>
           <div className={styles.timeline}>
-            {TIMELINE.map((year, index) => (
-              <div className={styles.timelineItem} key={index}>
+            {TIMELINE.map(({ year, event }) => (
+              <div className={styles.timelineItem} key={year}>
                 <span className={styles.timelineDot}>
                   <IconLeaf width={20} height={20} />
                 </span>
                 <h3>{year}</h3>
-                <p>[DE CONFIGURAT: eveniment]</p>
+                <p>{event}</p>
               </div>
             ))}
           </div>

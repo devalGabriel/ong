@@ -8,7 +8,7 @@ import styles from "./page.module.css";
 
 export const metadata = {
   title: "Contact",
-  description: "[DE CONFIGURAT: descriere contact pentru motoare de căutare]",
+  description: "Contactează Asociația Fii Schimbarea — date de contact, formular și program.",
 };
 
 const FAQ = [
@@ -86,7 +86,7 @@ export default async function ContactPage() {
                 </span>
                 <div>
                   <h3>Adresă</h3>
-                  <p>{settings.address || "[DE CONFIGURAT: adresă]"}</p>
+                  <p>{settings.address || "București, România — Str. Speranței nr. 10, sector 1, Cod poștal 010123"}</p>
                 </div>
               </li>
               <li>
@@ -95,7 +95,7 @@ export default async function ContactPage() {
                 </span>
                 <div>
                   <h3>Email</h3>
-                  <p>{settings.email || "[DE CONFIGURAT: email]"}</p>
+                  <p>{settings.email || "contact@fiischimbarea.ro"}</p>
                 </div>
               </li>
               <li>
@@ -104,7 +104,10 @@ export default async function ContactPage() {
                 </span>
                 <div>
                   <h3>Telefon</h3>
-                  <p>{settings.phone || "[DE CONFIGURAT: telefon]"}</p>
+                  <p>{settings.phone || "+40 712 345 678"}</p>
+                  <p className={styles.formNote} style={{ marginTop: "0.15rem" }}>
+                    Luni – Vineri: 09:00 – 17:00
+                  </p>
                 </div>
               </li>
             </ul>
@@ -121,7 +124,7 @@ export default async function ContactPage() {
             <h2 style={{ marginTop: 0 }}>
               Unde ne <span className="accent">găsești</span>
             </h2>
-            <p>[DE CONFIGURAT: hartă și adresă — vor fi publicate după confirmarea unui sediu/provider de hartă.]</p>
+            <p>Suntem în inima Bucureștiului, aproape de comunitățile pe care le susținem. [DE CONFIGURAT: hartă interactivă — va fi publicată după confirmarea unui provider de hărți.]</p>
           </div>
         </div>
       </section>

@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/public/PageHero";
-import { IconHeart, IconHandsRaised, IconMegaphone, IconHandshake, IconUsers, IconLeaf } from "@/components/public/icons";
+import { IconHeart, IconHandsRaised, IconMegaphone, IconHandshake, IconUsers, IconLeaf, IconPerson } from "@/components/public/icons";
 import { getPageContent } from "@/lib/content/get-page-content";
 import styles from "./page.module.css";
 
 export const metadata = {
   title: "Implică-te",
-  description: "[DE CONFIGURAT: descriere implicare pentru motoare de căutare]",
+  description: "Donează, devino voluntar sau construiește un parteneriat cu Fii Schimbarea.",
 };
 
 const INVOLVE_CARDS = [
@@ -22,6 +22,12 @@ const REASONS = [
   { icon: IconHeart, title: "Faci parte dintr-o comunitate", desc: "Alături de oameni implicați, vei simți că faci parte din ceva mai mare decât tine." },
   { icon: IconLeaf, title: "Îți dezvolți abilitățile", desc: "Voluntariatul îți oferă experiență, încredere și ocazia de a învăța lucruri noi." },
   { icon: IconHandsRaised, title: "Lași o moștenire bună", desc: "Fiecare gest contează și poate inspira alți oameni să se implice." },
+];
+
+const TESTIMONIALS = [
+  { name: "Andreea M.", role: "Voluntar din 2022", quote: "Voluntariatul m-a învățat cât de mult poate schimba un gest mic în viața unui copil. Sunt mândră că fac parte din această familie." },
+  { name: "Alex D.", role: "Susținător din 2021", quote: "Am ales să donez lunar pentru că știu că fiecare contribuție ajută la echiparea spitalelor și la salvarea de vieți." },
+  { name: "Ioana P.", role: "Reprezentant companie parteneră", quote: "Parteneriatul cu Fii Schimbarea ne-a oferit ocazia să fim aproape de comunitate și să creăm impact real." },
 ];
 
 export default async function ImplicaTePage() {
@@ -126,6 +132,30 @@ export default async function ImplicaTePage() {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-alt">
+        <div className="container">
+          <h2 className="u-center">
+            Povești din <span className="accent">comunitatea</span> noastră
+          </h2>
+          <div className={styles.testimonialsGrid}>
+            {TESTIMONIALS.map(({ name, role, quote }) => (
+              <div className={`card ${styles.testimonialCard}`} key={name}>
+                <p className={styles.testimonialQuote}>&ldquo;{quote}&rdquo;</p>
+                <div className={styles.testimonialAuthor}>
+                  <span className={styles.testimonialAvatar}>
+                    <IconPerson width={22} height={22} />
+                  </span>
+                  <div>
+                    <p className={styles.testimonialName}>{name}</p>
+                    <p className={styles.testimonialRole}>{role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

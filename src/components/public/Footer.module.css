@@ -77,11 +77,30 @@
   padding-block: var(--space-3);
   font-size: 0.85rem;
   color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
   text-align: center;
+}
+
+.adminLink {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.adminLink:hover {
+  color: var(--color-primary);
 }
 
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  }
+
+  .bottom {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }

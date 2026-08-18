@@ -1,0 +1,181 @@
+.splitGrid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.panel {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.providerBanner {
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: 0.9rem;
+}
+
+.providerAvailable {
+  background: #e4f0e0;
+  color: #2f5c26;
+}
+
+.providerUnavailable {
+  background: var(--color-bg-alt);
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.methodGrid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-4);
+}
+
+.methodCard {
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.methodCard h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 1rem;
+}
+
+.methodCard p {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  margin: 0 0 var(--space-3);
+}
+
+.ibanRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 0.55rem 0.75rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.copyBtn {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  flex: none;
+}
+
+.formNote {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: var(--space-3);
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.field input {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  font: inherit;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: var(--space-3);
+}
+
+.useGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-5);
+}
+
+.useIcon {
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.useCard h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 1rem;
+}
+
+.useCard p {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.trustGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-5);
+  text-align: center;
+}
+
+.trustIcon {
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.trustItem h3 {
+  font-size: 0.92rem;
+  margin: 0 0 var(--space-1);
+}
+
+.trustItem p {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .useGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trustGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .splitGrid {
+    grid-template-columns: 1.1fr 1fr;
+  }
+
+  .useGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .trustGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

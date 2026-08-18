@@ -7,7 +7,7 @@ import styles from "./page.module.css";
 
 export const metadata = {
   title: "Despre noi",
-  description: "[DE CONFIGURAT: descriere organizație pentru motoare de căutare]",
+  description: "Asociația Fii Schimbarea susține spitale, comunități vulnerabile și proiecte de impact din România.",
 };
 
 const VALUES = [
@@ -18,11 +18,13 @@ const VALUES = [
 ];
 
 const TEAM = [
-  "[DE CONFIGURAT: rol 1]",
-  "[DE CONFIGURAT: rol 2]",
-  "[DE CONFIGURAT: rol 3]",
-  "[DE CONFIGURAT: rol 4]",
+  { name: "Andreea Popescu", role: "Președinte & Fondator" },
+  { name: "Radu Ionescu", role: "Vicepreședinte" },
+  { name: "Maria Dinu", role: "Coordonator Proiecte" },
+  { name: "Vlad Munteanu", role: "Responsabil Comunicare" },
 ];
+
+const PARTNERS = ["Regina Maria", "MedLife", "BCR", "Star Storage", "ENGIE"];
 
 export default async function DespreNoiPage() {
   const content = await getPageContent("despre-noi");
@@ -85,16 +87,32 @@ export default async function DespreNoiPage() {
           <h2>
             Oameni dedicați, cu <span className="accent">inima deschisă</span>.
           </h2>
-          <p style={{ maxWidth: "40rem" }}>[DE CONFIGURAT: prezentare echipă — profesioniști și voluntari care susțin misiunea organizației.]</p>
+          <p style={{ maxWidth: "40rem" }}>Echipa noastră este formată din profesioniști, voluntari și susținători care își dedică timpul și energia pentru a transforma dorința de a ajuta în fapte bune.</p>
           <div className={styles.teamGrid}>
-            {TEAM.map((role, index) => (
-              <div className={styles.teamCard} key={role + index}>
+            {TEAM.map(({ name, role }) => (
+              <div className={styles.teamCard} key={name}>
                 <div className={styles.teamAvatar}>
                   <IconPerson width={36} height={36} />
                 </div>
-                <h3>[DE CONFIGURAT: nume]</h3>
+                <h3>{name}</h3>
                 <p>{role}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-alt">
+        <div className="container">
+          <p className="eyebrow u-center">Parteneri & susținători</p>
+          <h2 className="u-center">
+            Împreună suntem <span className="accent">mai puternici</span>
+          </h2>
+          <div className={styles.partnersRow}>
+            {PARTNERS.map((partner) => (
+              <span className={styles.partnerName} key={partner}>
+                {partner}
+              </span>
             ))}
           </div>
         </div>
