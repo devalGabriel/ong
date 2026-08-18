@@ -18,26 +18,32 @@ const INVOLVE_LINKS = [
   { href: "/contact", label: "Parteneriate" },
 ];
 
-export default function Footer() {
+const SOCIAL_LINKS = [
+  { key: "facebookUrl", label: "Facebook", initial: "f" },
+  { key: "instagramUrl", label: "Instagram", initial: "i" },
+  { key: "tiktokUrl", label: "TikTok", initial: "t" },
+];
+
+export default function Footer({ settings }) {
   const year = new Date().getFullYear();
+  const s = settings ?? {};
+  const activeSocialLinks = SOCIAL_LINKS.filter((link) => s[link.key]);
 
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.grid}`}>
         <div className={styles.brand}>
-          <Logo />
+          <Logo organizationName={s.organizationName} />
           <p>[DE CONFIGURAT: scurtă descriere a organizației, misiune și domeniu de activitate.]</p>
-          <div className={styles.social} aria-label="Rețele sociale">
-            <a href="#" aria-label="Facebook">
-              f
-            </a>
-            <a href="#" aria-label="Instagram">
-              i
-            </a>
-            <a href="#" aria-label="TikTok">
-              t
-            </a>
-          </div>
+          {activeSocialLinks.length > 0 && (
+            <div className={styles.social} aria-label="Rețele sociale">
+              {activeSocialLinks.map((link) => (
+                <a key={link.key} href={s[link.key]} target="_blank" rel="noreferrer" aria-label={link.label}>
+                  {link.initial}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>
@@ -65,15 +71,17 @@ export default function Footer() {
         <div>
           <h2 className={styles.colTitle}>Contact</h2>
           <ul className={styles.contactList}>
-            <li>[DE CONFIGURAT: adresă]</li>
-            <li>[DE CONFIGURAT: telefon]</li>
-            <li>[DE CONFIGURAT: email]</li>
+            <li>{s.address || "[DE CONFIGURAT: adresă]"}</li>
+            <li>{s.phone || "[DE CONFIGURAT: telefon]"}</li>
+            <li>{s.email || "[DE CONFIGURAT: email]"}</li>
           </ul>
         </div>
       </div>
 
       <div className={styles.bottom}>
-        <p>&copy; {year} [Numele Organizației]. Toate drepturile rezervate.</p>
+        <p>
+          &copy; {year} {s.organizationName || "[Numele Organizației]"}. Toate drepturile rezervate.
+        </p>
       </div>
     </footer>
   );

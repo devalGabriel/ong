@@ -17,14 +17,14 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Header() {
+export default function Header({ organizationName }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   return (
     <header className={styles.header}>
       <div className={`container ${styles.bar}`}>
-        <Logo />
+        <Logo organizationName={organizationName} />
 
         <nav className={styles.nav} aria-label="Navigare principală">
           <ul className={styles.navList}>

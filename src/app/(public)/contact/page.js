@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageHero from "@/components/public/PageHero";
 import { IconHeart, IconBuilding, IconHeartHand } from "@/components/public/icons";
 import { getPageContent } from "@/lib/content/get-page-content";
+import { getSiteSettings } from "@/lib/settings/get-site-settings";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -19,6 +20,7 @@ const FAQ = [
 
 export default async function ContactPage() {
   const content = await getPageContent("contact");
+  const settings = await getSiteSettings();
 
   return (
     <>
@@ -84,7 +86,7 @@ export default async function ContactPage() {
                 </span>
                 <div>
                   <h3>Adresă</h3>
-                  <p>[DE CONFIGURAT: adresă]</p>
+                  <p>{settings.address || "[DE CONFIGURAT: adresă]"}</p>
                 </div>
               </li>
               <li>
@@ -93,7 +95,7 @@ export default async function ContactPage() {
                 </span>
                 <div>
                   <h3>Email</h3>
-                  <p>[DE CONFIGURAT: email]</p>
+                  <p>{settings.email || "[DE CONFIGURAT: email]"}</p>
                 </div>
               </li>
               <li>
@@ -102,7 +104,7 @@ export default async function ContactPage() {
                 </span>
                 <div>
                   <h3>Telefon</h3>
-                  <p>[DE CONFIGURAT: telefon]</p>
+                  <p>{settings.phone || "[DE CONFIGURAT: telefon]"}</p>
                 </div>
               </li>
             </ul>
