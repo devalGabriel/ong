@@ -1,0 +1,123 @@
+.involveGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-5);
+}
+
+.involveIcon {
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.involveCard h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 1.05rem;
+}
+
+.involveCard p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.splitGrid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.formCard {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.formRow {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.field input,
+.field select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  font: inherit;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.formNote {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.reasonsList {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.reasonsList li {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.reasonIcon {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reasonsList h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.reasonsList p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .involveGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .formRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .involveGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .splitGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

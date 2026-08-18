@@ -2,11 +2,13 @@
   "name": "ong-website",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:admin": "node scripts/seed-admin.js"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.9.1",

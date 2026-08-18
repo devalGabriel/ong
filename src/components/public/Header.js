@@ -1,6 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Logo from "./Logo";
+import { IconHeart } from "./icons";
+import styles from "./Header.module.css";
 
 const NAV_LINKS = [
+  { href: "/", label: "Acasă" },
   { href: "/despre-noi", label: "Despre noi" },
   { href: "/proiecte", label: "Proiecte" },
   { href: "/implica-te", label: "Implică-te" },
@@ -10,34 +18,56 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
   return (
-    <header>
-      <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBlock: "var(--space-3)" }}>
-        <Link href="/" style={{ fontFamily: "var(--font-heading)", fontSize: "1.25rem", fontWeight: "bold" }}>
-          [Numele Organizației]
-        </Link>
-        <nav aria-label="Navigare principală">
-          <ul style={{ display: "flex", gap: "var(--space-3)", listStyle: "none", margin: 0, padding: 0 }}>
+    <header className={styles.header}>
+      <div className={`container ${styles.bar}`}>
+        <Logo />
+
+        <nav className={styles.nav} aria-label="Navigare principală">
+          <ul className={styles.navList}>
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
+                <Link href={link.href} aria-current={pathname === link.href ? "page" : undefined}>
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
-        <Link
-          href="/doneaza"
-          style={{
-            background: "var(--color-primary)",
-            color: "var(--color-primary-contrast)",
-            padding: "var(--space-2) var(--space-4)",
-            borderRadius: "var(--radius-md)",
-            textDecoration: "none",
-          }}
-        >
-          Donează
-        </Link>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+          <Link href="/doneaza" className={styles.donate}>
+            <IconHeart width={14} height={14} strokeWidth={2} /> Donează
+          </Link>
+          <button
+            type="button"
+            className={styles.menuToggle}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Închide meniul" : "Deschide meniul"}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? "✕" : "☰"}
+          </button>
+        </div>
       </div>
+
+      {open && (
+        <nav id="mobile-nav" className={`container ${styles.mobileNav}`} aria-label="Navigare mobilă">
+          <ul className={styles.mobileNavList}>
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} onClick={() => setOpen(false)}>
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }

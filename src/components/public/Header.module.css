@@ -1,0 +1,112 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(251, 246, 238, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+}
+
+.nav {
+  display: none;
+}
+
+.navList {
+  display: flex;
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navList a {
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid transparent;
+}
+
+.navList a:hover {
+  color: var(--color-primary);
+}
+
+.navList a[aria-current="page"] {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.menuToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.mobileNav {
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-3);
+}
+
+.mobileNavList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobileNavList a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.donate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  padding: 0.55rem 1.25rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.donate:hover {
+  background: #c94f66;
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    display: block;
+  }
+
+  .menuToggle,
+  .mobileNav {
+    display: none;
+  }
+}

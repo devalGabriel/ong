@@ -1,0 +1,131 @@
+.whyGrid {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.reasonsRow {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-4);
+}
+
+.reasonCard {
+  text-align: center;
+  padding: var(--space-3);
+}
+
+.reasonCard svg {
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.reasonCard h3 {
+  font-size: 0.95rem;
+  margin: 0 0 var(--space-1);
+}
+
+.reasonCard p {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.infoBox {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.infoBox p {
+  color: var(--color-text-muted);
+}
+
+.donutsGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-4);
+  text-align: center;
+}
+
+.donut {
+  width: 6.5rem;
+  height: 6.5rem;
+  margin: 0 auto var(--space-3);
+  border-radius: 999px;
+  border: 6px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.donutCard h3 {
+  font-size: 0.92rem;
+  margin: 0 0 var(--space-1);
+}
+
+.donutCard p {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.timeline {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-5);
+  text-align: center;
+}
+
+.timelineDot {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto var(--space-2);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timelineItem h3 {
+  font-size: 1.1rem;
+  margin: 0 0 var(--space-1);
+  color: var(--color-primary);
+}
+
+.timelineItem p {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .reasonsRow {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .donutsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .whyGrid {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .donutsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .timeline {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
