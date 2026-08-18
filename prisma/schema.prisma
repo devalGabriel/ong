@@ -1,0 +1,65 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         String   @default("ADMIN")
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PageContent {
+  id          String   @id @default(cuid())
+  pageKey     String
+  sectionKey  String
+  contentKey  String
+  contentType String
+  value       String
+  updatedAt   DateTime @updatedAt
+
+  @@unique([pageKey, sectionKey, contentKey])
+}
+
+model SiteSettings {
+  id                        String   @id @default(cuid())
+  organizationName          String?
+  legalName                 String?
+  fiscalCode                String?
+  address                   String?
+  email                     String?
+  phone                     String?
+  facebookUrl               String?
+  instagramUrl              String?
+  tiktokUrl                 String?
+  ibanRon                   String?
+  ibanEur                   String?
+  bankName                  String?
+  donationProviderType      String?
+  donationProviderPublicUrl String?
+  updatedAt                 DateTime @updatedAt
+}
+
+model TransparencyDocument {
+  id           String   @id @default(cuid())
+  title        String
+  year         Int
+  category     String
+  originalName String
+  storedName   String
+  mimeType     String
+  sizeBytes    Int
+  published    Boolean  @default(false)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

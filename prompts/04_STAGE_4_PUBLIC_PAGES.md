@@ -12,13 +12,12 @@ For EACH route:
 Routes:
 - /despre-noi
 - /proiecte
-- /proiecte/[slug]
 - /implica-te
 - /transparenta
 - /noutati
-- /noutati/[slug]
 - /contact
-- required legal pages based on project scope
+
+No detail/slug routes (`/proiecte/[slug]`, `/noutati/[slug]`) and no legal pages in MVP scope. `/doneaza` is implemented in Stage 9.
 
 Do not implement admin CMS yet.
 Transparency may show empty/controlled demo state; no upload yet.

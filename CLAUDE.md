@@ -72,17 +72,16 @@ For ADMIN/DASHBOARD there is intentionally NO mock-up. Build a minimal, sober, f
 - NO arbitrary HTML editor
 
 ## Public pages
-- Home
-- Despre noi
-- Proiecte
-- Project detail
-- Implică-te
-- Transparență
-- Noutăți
-- News detail
-- Donează
-- Contact
-- required legal pages
+- / (Home)
+- /despre-noi (Despre noi)
+- /proiecte (Proiecte)
+- /implica-te (Implică-te)
+- /transparenta (Transparență)
+- /noutati (Noutăți)
+- /contact (Contact)
+- /doneaza (Donează)
+
+MVP has exactly these 8 routes. No detail/slug routes (`/proiecte/[slug]`, `/noutati/[slug]`) and no legal pages (`/confidentialitate`, `/termeni`) in MVP.
 
 Every public page must follow its matching file from `mockup/`.
 
