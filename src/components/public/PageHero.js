@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { IconLeafSprig } from "./icons";
 import styles from "./PageHero.module.css";
 
 export default function PageHero({
@@ -39,8 +38,8 @@ export default function PageHero({
           )}
         </div>
         <div className={styles.imageOuter}>
-          <IconLeafSprig className={styles.leafSprig} />
-          <div className={styles.dotGrid} />
+          <Image src="/icons/leaf.png" alt="" width={90} height={180} className={styles.leafSprig} />
+          <Image src="/icons/dots.png" alt="" width={64} height={64} className={styles.dotGrid} />
           <div className={styles.imageWrap}>
             <Image src={imageSrc} alt={imageAlt} fill sizes="(min-width: 1024px) 40vw, 90vw" priority />
             {badgeText && (

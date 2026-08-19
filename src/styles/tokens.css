@@ -1,14 +1,14 @@
 :root {
-  --color-bg: #fbf6ee;
-  --color-bg-alt: #f4ead9;
+  --color-bg: #fdfaf7;
+  --color-bg-alt: #f4f1ea;
   --color-surface: #ffffff;
   --color-text: #2b2420;
   --color-text-muted: #5c5349;
-  --color-primary: #e0637a;
+  --color-primary: #d65d79;
   --color-primary-contrast: #ffffff;
-  --color-secondary: #8ba888;
+  --color-secondary: #bcc1ac;
   --color-secondary-contrast: #1f2b1e;
-  --color-border: #e5dccb;
+  --color-border: #e7e2d5;
   --color-focus: #2b6cb0;
 
   --font-heading: Georgia, "Times New Roman", serif;

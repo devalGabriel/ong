@@ -6,8 +6,18 @@
 }
 
 .involveIcon {
-  color: var(--color-primary);
-  margin-bottom: var(--space-2);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+}
+
+.involveCard:nth-child(even) .involveIcon {
+  background: color-mix(in srgb, var(--color-secondary) 18%, var(--color-surface));
 }
 
 .involveCard h3 {

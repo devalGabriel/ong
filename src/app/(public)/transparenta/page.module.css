@@ -58,9 +58,19 @@
   padding: var(--space-3);
 }
 
-.reasonCard svg {
-  color: var(--color-primary);
-  margin-bottom: var(--space-2);
+.reasonIcon {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto var(--space-2);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reasonCard:nth-child(even) .reasonIcon {
+  background: color-mix(in srgb, var(--color-secondary) 18%, var(--color-surface));
 }
 
 .reasonCard h3 {

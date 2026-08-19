@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/public/PageHero";
-import { IconBuilding, IconUsers, IconHeartHand, IconPerson, IconHeart } from "@/components/public/icons";
+import { IconHeart } from "@/components/public/icons";
 import { getPageContent } from "@/lib/content/get-page-content";
 import styles from "./page.module.css";
 
@@ -20,10 +20,10 @@ const PROJECTS = [
 ];
 
 const STATS = [
-  { icon: IconBuilding, value: "25+", label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
-  { icon: IconUsers, value: "5000+", label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
-  { icon: IconHeartHand, value: "40+", label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
-  { icon: IconPerson, value: "120+", label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
+  { icon: "/icons/hospital.png", value: "25+", label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
+  { icon: "/icons/people.png", value: "5000+", label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
+  { icon: "/icons/hand-heart.png", value: "40+", label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
+  { icon: "/icons/human-heart.png", value: "120+", label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
 ];
 
 export default async function ProiectePage() {
@@ -97,10 +97,10 @@ export default async function ProiectePage() {
             Împreună facem <span className="accent">diferența</span>
           </h2>
           <div className="stats-grid">
-            {STATS.map(({ icon: Icon, value, label, desc }) => (
+            {STATS.map(({ icon, value, label, desc }) => (
               <div className="stat-card" key={label}>
                 <span className="stat-icon">
-                  <Icon />
+                  <Image src={icon} alt="" width={28} height={28} />
                 </span>
                 <p className="stat-value">{value}</p>
                 <p className="stat-label">{label}</p>
@@ -114,7 +114,7 @@ export default async function ProiectePage() {
       <section className="container section">
         <div className="cta-band">
           <div className="cta-band-image">
-            <Image src="/assets/8-mana-inima.png" alt="" fill sizes="100vw" />
+            <Image src="/icons/badge.png" alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
           <div className="cta-band-content">
             <p>Fiecare proiect are nevoie de oameni ca tine.</p>

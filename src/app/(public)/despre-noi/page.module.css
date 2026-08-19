@@ -16,6 +16,17 @@
   object-fit: cover;
 }
 
+.storyTextWrap {
+  position: relative;
+}
+
+.storyDecor {
+  position: absolute;
+  right: 0;
+  bottom: -0.5rem;
+  opacity: 0.85;
+}
+
 .storyBadge {
   position: absolute;
   bottom: -1rem;
@@ -44,8 +55,18 @@
 }
 
 .valueIcon {
-  color: var(--color-primary);
-  margin-bottom: var(--space-2);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+}
+
+.valueCard:nth-child(even) .valueIcon {
+  background: color-mix(in srgb, var(--color-secondary) 18%, var(--color-surface));
 }
 
 .valueCard h3 {

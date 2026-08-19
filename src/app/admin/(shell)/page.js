@@ -28,15 +28,17 @@ export default async function AdminDashboardPage() {
         <p>Bine ai venit în panoul de administrare.</p>
       </div>
 
-      <div className="stats-grid">
+      <div className={styles.statsGrid}>
         {cards.map(({ icon: Icon, label, value, caption }) => (
-          <div className="stat-card" key={label}>
-            <span className="stat-icon">
+          <div className={styles.statCard} key={label}>
+            <span className={styles.statIcon}>
               <Icon />
             </span>
-            <p className="stat-value">{value}</p>
-            <p className="stat-label">{label}</p>
-            {caption && <p className={styles.statCaption}>{caption}</p>}
+            <div className={styles.statText}>
+              <p className={styles.statLabel}>{label}</p>
+              <p className={styles.statValue}>{value}</p>
+              {caption && <p className={styles.statCaption}>{caption}</p>}
+            </div>
           </div>
         ))}
       </div>

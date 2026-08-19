@@ -108,7 +108,7 @@ export default async function NoutatiPage() {
       <section className="container section">
         <div className="cta-band">
           <div className="cta-band-image">
-            <Image src="/assets/8-mana-inima.png" alt="" fill sizes="100vw" />
+            <Image src="/icons/badge.png" alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
           <div className="cta-band-content">
             <p>Fii parte din schimbare!</p>

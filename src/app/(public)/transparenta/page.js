@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/public/PageHero";
-import { IconHeart, IconBuilding, IconUsers, IconLeaf } from "@/components/public/icons";
+import { IconHeart, IconLeaf } from "@/components/public/icons";
 import { getPageContent } from "@/lib/content/get-page-content";
 import { getPublishedDocuments } from "@/lib/documents/get-published-documents";
 import { getCategoryLabel } from "@/lib/documents/categories";
@@ -14,10 +14,10 @@ export const metadata = {
 };
 
 const REASONS = [
-  { icon: IconHeart, title: "Integritate", desc: "Respectăm cei mai înalți standarde etice." },
-  { icon: IconUsers, title: "Responsabilitate", desc: "Răspundem pentru impactul și resursele noastre." },
-  { icon: IconBuilding, title: "Deschidere", desc: "Comunicăm clar și la timp, fără informații ascunse." },
-  { icon: IconHeart, title: "Încredere", desc: "Credem că încrederea se construiește zi de zi." },
+  { icon: "/icons/heart.png", title: "Integritate", desc: "Respectăm cei mai înalți standarde etice." },
+  { icon: "/icons/people.png", title: "Responsabilitate", desc: "Răspundem pentru impactul și resursele noastre." },
+  { icon: "/icons/hospital.png", title: "Deschidere", desc: "Comunicăm clar și la timp, fără informații ascunse." },
+  { icon: "/icons/heart.png", title: "Încredere", desc: "Credem că încrederea se construiește zi de zi." },
 ];
 
 const DONATION_USE = [
@@ -62,9 +62,11 @@ export default async function TransparentaPage() {
             <h2>Responsabilitate față de misiunea noastră</h2>
             <p>Suntem o organizație non-profit și fiecare leu primit este o promisiune că vom face bine. De aceea, ne angajăm să fim transparenți în actele noastre, în decizii și în modul în care gestionăm resursele.</p>
             <div className={styles.reasonsRow}>
-              {REASONS.map(({ icon: Icon, title, desc }) => (
+              {REASONS.map(({ icon, title, desc }) => (
                 <div className={`card ${styles.reasonCard}`} key={title}>
-                  <Icon width={28} height={28} />
+                  <span className={styles.reasonIcon}>
+                    <Image src={icon} alt="" width={26} height={26} />
+                  </span>
                   <h3>{title}</h3>
                   <p>{desc}</p>
                 </div>
@@ -153,7 +155,7 @@ export default async function TransparentaPage() {
       <section className="container section">
         <div className="cta-band">
           <div className="cta-band-image">
-            <Image src="/assets/8-mana-inima.png" alt="" fill sizes="100vw" />
+            <Image src="/icons/badge.png" alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
           <div className="cta-band-content">
             <p>Transparența creează încredere.</p>

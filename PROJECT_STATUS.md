@@ -150,5 +150,35 @@ Implemented (Phase A), all verified against a real production server (`next star
 - Real bug caught during testing (not the app's fault): the same Git-Bash/curl UTF-8 argument-encoding issue from Stage 8 resurfaced when testing a `ț`-containing CTA value via `--data-urlencode`; worked around the same way (value read from a UTF-8 file via `--data-urlencode "field@file"` with a Windows-style path), confirmed the save round-trips correctly in the actual app.
 - Dev DB reset to empty (`PageContent` table) after all testing.
 
+### Follow-up: color/spacing fidelity correction (2026-08-19)
+User rejected the initial dashboard-rebuild pass as not matching `mockup/dashboard.png`'s actual tone — specifically, public-page background colors read as far more saturated than the mock-up's subtle, near-white/muted palette. Sampled authoritative pixel colors from the mock-up PNGs (`mockup/dashboard.png`, home page) via a Playwright canvas `getImageData()` script (temporary, deleted after use — not the earlier-rejected asset-extraction approach; this only read color values, produced no derived files) and corrected `src/styles/tokens.css` accordingly:
+- `--color-bg` `#fbf6ee` → `#fdfaf7`, `--color-bg-alt` `#f4ead9` → `#f4f1ea` (both measurably less saturated, matching sampled mock-up values)
+- `--color-primary` `#e0637a` → `#d65d79` (sampled from hero "Donează acum" button)
+- `--color-secondary` `#8ba888` → `#bcc1ac` (sampled from the CTA band; was a much darker/more saturated green than the mock-up's pale muted sage — the largest confirmed discrepancy). Verified all `color: var(--color-secondary)` text usages are paired with `--color-secondary-contrast` dark text on a now-lighter background — contrast improved, not regressed (checked each usage site).
+- `--color-border` `#e5dccb` → `#e7e2d5` (minor, lower-confidence sample)
+- Admin shell (`layout.module.css` `.shell`) switched from `--color-bg-alt` to `--color-bg` — the dashboard mock-up's page background sampled near-white, closer to the public site's base `--color-bg` than its alt-section tone.
+- Admin dashboard stat cards (`src/app/admin/(shell)/page.js` + `.module.css`) rebuilt from the public site's stacked/centered stat-card layout to a dedicated horizontal card (icon left, label/value/caption right) matching the mock-up's actual structure — this was a real layout mismatch, not just color.
+- `SectionCard.module.css` `.field` background changed from `--color-bg-alt` (read as tan/khaki) to `--color-bg` (clean, barely-tinted white), matching the mock-up's field-box look.
+- Verified via full production build + authenticated Playwright screenshots of `/`, `/admin`, and `/admin/continut/home`, compared directly against both mock-ups — confirmed close visual match. Font family and detailed spacing scale were not changed (already matched the mock-up's category — serif headings/sans body — closely enough that no further correction was warranted); only color tokens and the two structural sizing issues above needed fixing.
+- Temporary sampling/screenshot scripts deleted; dev DB untouched (no data was seeded this pass).
+
+## Icon-set integration pass (out-of-band, user-supplied PNGs in `public/icons/`)
+The user added 13 real PNG icons (transparent background, 180×180 except `badge.png` 2172×724 and `leaf.png` 180×360) to `public/icons/` and asked for the public pages to be visually rebuilt around them, aligned with `mockup/`. Mapped each PNG to its mockup usage by visually comparing all 8 mock-ups against the new files, then applied:
+- `logo.png` → header/footer mark (`Logo.js`, replacing the hand-built two-circle SVG).
+- `leaf.png` (rotated ~35° via CSS `transform`) → the decorative sprig next to every hero photo (`PageHero.js` shared component + homepage's own hero, which duplicates the same markup).
+- `dots.png` → the dot-grid accent next to every hero photo (same two locations), replacing a CSS `radial-gradient`.
+- `badge.png` → full-bleed background (previously a 0.18-opacity photo fade) on every page's bottom "cta-band" (shared `.cta-band-image` in `components.css` + homepage's own `.ctaImageWrap`), across all 8 public pages.
+- `hospital.png`/`people.png`/`hand-heart.png`/`human-heart.png` → the 4-stat icon row (home, proiecte) and equivalent icon slots elsewhere (transparenta reasons, doneaza use-cases/trust items, despre-noi values/team avatars, implica-te reasons/testimonial avatars) — matched by the concept each PNG depicts, not by prior code's (sometimes mismatched) icon choice.
+- `heart.png`/`handsup.png`/`news.png`/`handshake.png` → the 4 "cum te poți implica" method cards (home, implica-te).
+- `hello.png` → new decorative accent added next to the "Cine suntem"/"Povestea noastră" body text on home and despre-noi (this element didn't exist in code before; mock-ups 1 and 2 both show it).
+- Added circular tinted-chip backgrounds (alternating primary/secondary tint, same pattern as the pre-existing `.stat-icon`) behind icon groups that were previously bare in code but circled in the mock-ups: home/implica-te involve cards, despre-noi values, transparenta's 4-reason row.
+
+Deliberately **not** replaced (no matching asset, or a real contrast/legibility risk):
+- Small inline icons on colored buttons (e.g. the 16px heart before every "Donează acum" label) stay hand-built SVG using `currentColor` — `heart.png`'s stroke is a fixed pink, which would vanish against the pink primary button.
+- Contact page's address/email/phone icons, transparenta's shield/document icons, doneaza's shield/lock trust icons, the small single-leaf glyph used standalone (despre-noi "Solidaritate", implica-te "Îți dezvolți abilitățile", transparenta timeline dots) — none of the 13 PNGs are a compact single-glyph match, so these keep the existing inline-SVG icon set (`src/components/public/icons.js`, unchanged).
+- Proiecte's "Echipamente. Grijă. Viață." badge icon (a medical kit, not in the PNG set) and the teddy-bear icon on doneaza — no matching asset, left as-is.
+
+Verified: `npm run lint` clean, `npm run build` succeeds (all 8 public routes still prerender `○ Static`), and all 8 pages screenshotted via Playwright (`npm run screenshot`, production build on port 3100) at 1440px and compared directly against their mock-ups — close visual match, no broken images, CTA-band text stays legible over `badge.png` (band text color is the pre-existing dark `--color-secondary-contrast`, not white, so it reads fine against the image's pale panel). Screenshots deleted after review (gitignored `scripts/screenshots/` anyway). Dev/prod servers stopped after testing.
+
 ## Stage 1 known risk
 `npm audit` reports 3 high-severity advisories against `deepmerge-ts` (via `@prisma/config`), affecting all current Prisma 7.x releases. `npm audit fix --force` would downgrade to `prisma@6.12.0`, which conflicts with the required Prisma major version 7 — left unfixed, tracked for re-check when a patched Prisma 7 release is available.

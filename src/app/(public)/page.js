@@ -1,17 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  IconBuilding,
-  IconUsers,
-  IconHeartHand,
-  IconPerson,
-  IconHeart,
-  IconHandsRaised,
-  IconMegaphone,
-  IconHandshake,
-  IconArrowRight,
-  IconLeafSprig,
-} from "@/components/public/icons";
+import { IconHeart, IconArrowRight } from "@/components/public/icons";
 import { getPageContent } from "@/lib/content/get-page-content";
 import styles from "./page.module.css";
 
@@ -21,36 +10,36 @@ export const metadata = {
 };
 
 const STATS = [
-  { icon: IconBuilding, value: "2+", label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
-  { icon: IconUsers, value: "5000+", label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
-  { icon: IconHeartHand, value: "20+", label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
-  { icon: IconPerson, value: "100+", label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
+  { icon: "/icons/hospital.png", value: "2+", label: "Spitale susținute", desc: "Echipamente și consumabile medicale donate." },
+  { icon: "/icons/people.png", value: "5000+", label: "Oameni ajutați", desc: "Pacienți, copii și cadre medicale sprijinite." },
+  { icon: "/icons/hand-heart.png", value: "20+", label: "Proiecte realizate", desc: "Campanii și inițiative cu impact real." },
+  { icon: "/icons/human-heart.png", value: "100+", label: "Voluntari implicați", desc: "O comunitate unită pentru binele comun." },
 ];
 
 const INVOLVE_CARDS = [
   {
-    icon: IconHeart,
+    icon: "/icons/heart.png",
     title: "Donează",
     desc: "Orice sumă ne ajută să aducem speranță și resurse acolo unde sunt cele mai necesare.",
     href: "/doneaza",
     label: "Donează",
   },
   {
-    icon: IconHandsRaised,
+    icon: "/icons/handsup.png",
     title: "Devino voluntar",
     desc: "Timpul tău poate schimba vieți. Alătură-te echipei noastre.",
     href: "/implica-te",
     label: "Înscrie-te",
   },
   {
-    icon: IconMegaphone,
+    icon: "/icons/news.png",
     title: "Spune mai departe",
     desc: "Distribuie misiunea noastră și ajută-ne să ajungem la cât mai mulți oameni.",
     href: "/implica-te",
     label: "Distribuie",
   },
   {
-    icon: IconHandshake,
+    icon: "/icons/handshake.png",
     title: "Parteneriate",
     desc: "Dacă reprezinți o companie, hai să lucrăm împreună pentru bine.",
     href: "/contact",
@@ -82,8 +71,8 @@ export default async function HomePage() {
             </div>
           </div>
           <div className={styles.heroImageOuter}>
-            <IconLeafSprig className={styles.leafSprig} />
-            <div className={styles.dotGrid} />
+            <Image src="/icons/leaf.png" alt="" width={90} height={180} className={styles.leafSprig} />
+            <Image src="/icons/dots.png" alt="" width={64} height={64} className={styles.dotGrid} />
             <div className={styles.heroImageWrap}>
               <Image
                 src="/assets/1-hero-copil-spital.png"
@@ -114,13 +103,14 @@ export default async function HomePage() {
               <span>Din grijă pentru viață</span>
             </div>
           </div>
-          <div>
+          <div className={styles.aboutTextWrap}>
             <p className={styles.eyebrow}>Despre noi</p>
             <h2>Cine suntem</h2>
             <p>{content["about.body"]}</p>
             <Link href="/despre-noi" className={styles.linkArrow}>
               Citește povestea noastră <IconArrowRight />
             </Link>
+            <Image src="/icons/hello.png" alt="" width={64} height={64} className={styles.aboutDecor} />
           </div>
         </div>
       </section>
@@ -132,10 +122,10 @@ export default async function HomePage() {
             Împreună facem <span className={styles.accent}>diferența</span>
           </h2>
           <div className={styles.statsGrid}>
-            {STATS.map(({ icon: Icon, value, label, desc }) => (
+            {STATS.map(({ icon, value, label, desc }) => (
               <div className={styles.statCard} key={label}>
                 <span className={styles.statIcon}>
-                  <Icon />
+                  <Image src={icon} alt="" width={28} height={28} />
                 </span>
                 <p className={styles.statValue}>{value}</p>
                 <p className={styles.statLabel}>{label}</p>
@@ -150,10 +140,10 @@ export default async function HomePage() {
         <div className="container">
           <h2 className={styles.center}>Cum te poți implica</h2>
           <div className={styles.involveGrid}>
-            {INVOLVE_CARDS.map(({ icon: Icon, title, desc, href, label }) => (
+            {INVOLVE_CARDS.map(({ icon, title, desc, href, label }) => (
               <div className={styles.involveCard} key={title}>
                 <span className={styles.involveIcon}>
-                  <Icon />
+                  <Image src={icon} alt="" width={28} height={28} />
                 </span>
                 <h3>{title}</h3>
                 <p>{desc}</p>
@@ -169,7 +159,7 @@ export default async function HomePage() {
       <section className={`container ${styles.finalCtaSection}`}>
         <div className={styles.ctaBand}>
           <div className={styles.ctaImageWrap}>
-            <Image src="/assets/8-mana-inima.png" alt="" fill sizes="100vw" />
+            <Image src="/icons/badge.png" alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
           <div className={styles.ctaContent}>
             <p>Împreună putem scrie povești de speranță.</p>

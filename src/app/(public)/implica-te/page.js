@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/public/PageHero";
-import { IconHeart, IconHandsRaised, IconMegaphone, IconHandshake, IconUsers, IconLeaf, IconPerson } from "@/components/public/icons";
+import { IconHeart, IconLeaf } from "@/components/public/icons";
 import { getPageContent } from "@/lib/content/get-page-content";
 import styles from "./page.module.css";
 
@@ -11,17 +11,17 @@ export const metadata = {
 };
 
 const INVOLVE_CARDS = [
-  { icon: IconHeart, title: "Donează", desc: "Susține financiar proiectele noastre și ajută-ne să oferim speranță acolo unde este cea mai mare nevoie.", href: "/doneaza", label: "Donează" },
-  { icon: IconHandsRaised, title: "Devino voluntar", desc: "Dăruiește din timpul tău și implică-te alături de o echipă dedicată.", href: "#devino-voluntar", label: "Înscrie-te" },
-  { icon: IconMegaphone, title: "Spune mai departe", desc: "Distribuie misiunea noastră și ajută-ne să ajungem la cât mai mulți oameni.", href: "/contact", label: "Distribuie" },
-  { icon: IconHandshake, title: "Parteneriate", desc: "Construim parteneriate solide cu organizații și companii care cred în puterea binelui.", href: "/contact", label: "Colaborează" },
+  { icon: "/icons/heart.png", title: "Donează", desc: "Susține financiar proiectele noastre și ajută-ne să oferim speranță acolo unde este cea mai mare nevoie.", href: "/doneaza", label: "Donează" },
+  { icon: "/icons/handsup.png", title: "Devino voluntar", desc: "Dăruiește din timpul tău și implică-te alături de o echipă dedicată.", href: "#devino-voluntar", label: "Înscrie-te" },
+  { icon: "/icons/news.png", title: "Spune mai departe", desc: "Distribuie misiunea noastră și ajută-ne să ajungem la cât mai mulți oameni.", href: "/contact", label: "Distribuie" },
+  { icon: "/icons/handshake.png", title: "Parteneriate", desc: "Construim parteneriate solide cu organizații și companii care cred în puterea binelui.", href: "/contact", label: "Colaborează" },
 ];
 
 const REASONS = [
-  { icon: IconUsers, title: "Schimbi vieți", desc: "Implicarea ta aduce speranță și îmbunătățește calitatea vieții celor pe care îi sprijinim." },
-  { icon: IconHeart, title: "Faci parte dintr-o comunitate", desc: "Alături de oameni implicați, vei simți că faci parte din ceva mai mare decât tine." },
-  { icon: IconLeaf, title: "Îți dezvolți abilitățile", desc: "Voluntariatul îți oferă experiență, încredere și ocazia de a învăța lucruri noi." },
-  { icon: IconHandsRaised, title: "Lași o moștenire bună", desc: "Fiecare gest contează și poate inspira alți oameni să se implice." },
+  { icon: "/icons/people.png", title: "Schimbi vieți", desc: "Implicarea ta aduce speranță și îmbunătățește calitatea vieții celor pe care îi sprijinim." },
+  { icon: "/icons/heart.png", title: "Faci parte dintr-o comunitate", desc: "Alături de oameni implicați, vei simți că faci parte din ceva mai mare decât tine." },
+  { icon: null, title: "Îți dezvolți abilitățile", desc: "Voluntariatul îți oferă experiență, încredere și ocazia de a învăța lucruri noi." },
+  { icon: "/icons/handsup.png", title: "Lași o moștenire bună", desc: "Fiecare gest contează și poate inspira alți oameni să se implice." },
 ];
 
 const TESTIMONIALS = [
@@ -54,9 +54,11 @@ export default async function ImplicaTePage() {
         <div className="container">
           <h2 className="u-center">Cum te poți implica</h2>
           <div className={styles.involveGrid}>
-            {INVOLVE_CARDS.map(({ icon: Icon, title, desc, href, label }) => (
+            {INVOLVE_CARDS.map(({ icon, title, desc, href, label }) => (
               <div className={`card ${styles.involveCard}`} key={title}>
-                <Icon className={styles.involveIcon} />
+                <span className={styles.involveIcon}>
+                  <Image src={icon} alt="" width={28} height={28} />
+                </span>
                 <h3>{title}</h3>
                 <p>{desc}</p>
                 <Link href={href} className="link-arrow">
@@ -120,11 +122,9 @@ export default async function ImplicaTePage() {
               De ce merită să te <span className="accent">implici</span>
             </h2>
             <ul className={styles.reasonsList}>
-              {REASONS.map(({ icon: Icon, title, desc }) => (
+              {REASONS.map(({ icon, title, desc }) => (
                 <li key={title}>
-                  <span className={styles.reasonIcon}>
-                    <Icon width={22} height={22} />
-                  </span>
+                  <span className={styles.reasonIcon}>{icon ? <Image src={icon} alt="" width={22} height={22} /> : <IconLeaf width={22} height={22} />}</span>
                   <div>
                     <h3>{title}</h3>
                     <p>{desc}</p>
@@ -147,7 +147,7 @@ export default async function ImplicaTePage() {
                 <p className={styles.testimonialQuote}>&ldquo;{quote}&rdquo;</p>
                 <div className={styles.testimonialAuthor}>
                   <span className={styles.testimonialAvatar}>
-                    <IconPerson width={22} height={22} />
+                    <Image src="/icons/human-heart.png" alt="" width={26} height={26} />
                   </span>
                   <div>
                     <p className={styles.testimonialName}>{name}</p>
@@ -163,7 +163,7 @@ export default async function ImplicaTePage() {
       <section className="container section">
         <div className="cta-band">
           <div className="cta-band-image">
-            <Image src="/assets/8-mana-inima.png" alt="" fill sizes="100vw" />
+            <Image src="/icons/badge.png" alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
           <div className="cta-band-content">
             <p>Împreună putem scrie povești de speranță.</p>

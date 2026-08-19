@@ -141,7 +141,7 @@ export default async function ContactPage() {
             ))}
           </div>
           <div className={styles.helpBox}>
-            <IconHeartHand width={32} height={32} />
+            <Image src="/icons/hand-heart.png" alt="" width={36} height={36} />
             <h3>Ai nevoie de ajutor?</h3>
             <p>Dacă nu găsești răspunsul pe care îl cauți, echipa noastră îți stă la dispoziție.</p>
             <Link href="#trimite-mesaj" className="btn-primary">
@@ -154,7 +154,7 @@ export default async function ContactPage() {
       <section className="container section">
         <div className="cta-band">
           <div className="cta-band-image">
-            <Image src="/assets/8-mana-inima.png" alt="" fill sizes="100vw" />
+            <Image src="/icons/badge.png" alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
           <div className="cta-band-content">
             <p>Împreună putem crea povești de speranță.</p>

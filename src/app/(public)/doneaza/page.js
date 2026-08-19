@@ -3,7 +3,7 @@ import Link from "next/link";
 import PageHero from "@/components/public/PageHero";
 import DonationAmountPicker from "@/components/public/DonationAmountPicker";
 import CopyButton from "@/components/public/CopyButton";
-import { IconHeart, IconBuilding, IconUsers, IconPerson, IconHeartHand, IconShield, IconLock } from "@/components/public/icons";
+import { IconHeart, IconShield, IconLock } from "@/components/public/icons";
 import { getSiteSettings } from "@/lib/settings/get-site-settings";
 import { getPageContent } from "@/lib/content/get-page-content";
 import styles from "./page.module.css";
@@ -21,17 +21,17 @@ const PROVIDER_LABELS = {
 };
 
 const USE_CASES = [
-  { icon: IconBuilding, title: "Spitale și pacienți", desc: "Sprijinim secțiile de pediatrie și pacienții cu echipamente și tratamente." },
-  { icon: IconHeartHand, title: "Comunități vulnerabile", desc: "Oferim alimente, îmbrăcăminte și sprijin esențial familiilor care trec prin momente dificile." },
-  { icon: IconPerson, title: "Copii și educație", desc: "Finanțăm programe educaționale și activități care le oferă copiilor șansa la un viitor mai bun." },
-  { icon: IconUsers, title: "Proiecte de impact", desc: "Dezvoltăm inițiative durabile care aduc speranță și schimbare pe termen lung." },
+  { icon: "/icons/hospital.png", title: "Spitale și pacienți", desc: "Sprijinim secțiile de pediatrie și pacienții cu echipamente și tratamente." },
+  { icon: "/icons/hand-heart.png", title: "Comunități vulnerabile", desc: "Oferim alimente, îmbrăcăminte și sprijin esențial familiilor care trec prin momente dificile." },
+  { icon: "/icons/human-heart.png", title: "Copii și educație", desc: "Finanțăm programe educaționale și activități care le oferă copiilor șansa la un viitor mai bun." },
+  { icon: "/icons/people.png", title: "Proiecte de impact", desc: "Dezvoltăm inițiative durabile care aduc speranță și schimbare pe termen lung." },
 ];
 
 const TRUST_ITEMS = [
-  { icon: IconShield, title: "Transparență totală", desc: "Publicăm periodic rapoarte și rezultate." },
-  { icon: IconLock, title: "Date protejate", desc: "Informațiile tale sunt confidențiale și în siguranță." },
-  { icon: IconUsers, title: "Peste 10 ani de impact", desc: "Mii de vieți schimbate împreună cu susținătorii noștri." },
-  { icon: IconHeart, title: "Donații deductibile", desc: "Donațiile sunt deductibile fiscal conform legislației în vigoare." },
+  { Icon: IconShield, title: "Transparență totală", desc: "Publicăm periodic rapoarte și rezultate." },
+  { Icon: IconLock, title: "Date protejate", desc: "Informațiile tale sunt confidențiale și în siguranță." },
+  { iconSrc: "/icons/people.png", title: "Peste 10 ani de impact", desc: "Mii de vieți schimbate împreună cu susținătorii noștri." },
+  { iconSrc: "/icons/heart.png", title: "Donații deductibile", desc: "Donațiile sunt deductibile fiscal conform legislației în vigoare." },
 ];
 
 export default async function DoneazaPage() {
@@ -147,9 +147,9 @@ export default async function DoneazaPage() {
         <div className="container">
           <h2 className="u-center">Unde merg donațiile tale</h2>
           <div className={styles.useGrid}>
-            {USE_CASES.map(({ icon: Icon, title, desc }) => (
+            {USE_CASES.map(({ icon, title, desc }) => (
               <div className={styles.useCard} key={title}>
-                <Icon className={styles.useIcon} />
+                <Image src={icon} alt="" width={32} height={32} className={styles.useIcon} />
                 <h3>{title}</h3>
                 <p>{desc}</p>
               </div>
@@ -166,9 +166,9 @@ export default async function DoneazaPage() {
       <section className="section section-alt">
         <div className="container">
           <div className={styles.trustGrid}>
-            {TRUST_ITEMS.map(({ icon: Icon, title, desc }) => (
+            {TRUST_ITEMS.map(({ Icon, iconSrc, title, desc }) => (
               <div className={styles.trustItem} key={title}>
-                <Icon className={styles.trustIcon} width={28} height={28} />
+                {Icon ? <Icon className={styles.trustIcon} width={28} height={28} /> : <Image src={iconSrc} alt="" width={28} height={28} className={styles.trustIcon} />}
                 <h3>{title}</h3>
                 <p>{desc}</p>
               </div>
@@ -180,7 +180,7 @@ export default async function DoneazaPage() {
       <section className="container section">
         <div className="cta-band">
           <div className="cta-band-image">
-            <Image src="/assets/8-mana-inima.png" alt="" fill sizes="100vw" />
+            <Image src="/icons/badge.png" alt="" fill sizes="100vw" style={{ objectFit: "cover" }} />
           </div>
           <div className="cta-band-content">
             <p>Fii schimbarea de care lumea are nevoie.</p>
